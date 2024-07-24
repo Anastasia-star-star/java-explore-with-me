@@ -31,7 +31,7 @@ class StatsServerServiceImplTest {
     private StatsServerRepository statsServerRepository;
 
     @InjectMocks
-    private StatsServerServiceImpl statsServerService;
+    private StatsServerServiceImpl statsServService;
 
     @Test
     @DisplayName("сохранена информация о запросе, когда информация валидна, тогда она сохраняется")
@@ -41,7 +41,7 @@ class StatsServerServiceImplTest {
         when(statsServerRepository.save(any(Hit.class)))
                 .thenReturn(StatsServerMapper.INSTANCE.toHit(endpointHitToSave));
 
-        EndpointHit actualEndpointHit = statsServerService.saveEndpHit(endpointHitToSave);
+        EndpointHit actualEndpointHit = statsServService.saveEndpHit(endpointHitToSave);
 
         assertThat(endpointHitToSave, equalTo(actualEndpointHit));
         verify(statsServerRepository, times(1)).save(any(Hit.class));
@@ -56,7 +56,7 @@ class StatsServerServiceImplTest {
                 .thenThrow(new DataIntegrityViolationException("Информация не была сохранена"));
 
         final HitDontSaveException exception = assertThrows(HitDontSaveException.class,
-                () -> statsServerService.saveEndpHit(endpointHitToSave));
+                () -> statsServService.saveEndpHit(endpointHitToSave));
 
         assertThat("Информация о запросе не была сохранена: " + endpointHitToSave,
                 equalTo(exception.getMessage()));
@@ -73,7 +73,7 @@ class StatsServerServiceImplTest {
         when(statsServerRepository.getAllUniqueStats(any(LocalDateTime.class), any(LocalDateTime.class)))
                 .thenReturn(expectedViewStats);
 
-        List<ViewStats> actualViewStats = statsServerService.getAllStats(LocalDateTime.now(),
+        List<ViewStats> actualViewStats = statsServService.getAllStats(LocalDateTime.now(),
                 LocalDateTime.now(), null, true);
 
         assertThat(expectedViewStats.size(), equalTo(actualViewStats.size()));
@@ -94,7 +94,7 @@ class StatsServerServiceImplTest {
         when(statsServerRepository.getAllStats(any(LocalDateTime.class), any(LocalDateTime.class)))
                 .thenReturn(expectedViewStats);
 
-        List<ViewStats> actualViewStats = statsServerService.getAllStats(LocalDateTime.now(),
+        List<ViewStats> actualViewStats = statsServService.getAllStats(LocalDateTime.now(),
                 LocalDateTime.now(), null, false);
 
         assertThat(expectedViewStats.size(), equalTo(actualViewStats.size()));
