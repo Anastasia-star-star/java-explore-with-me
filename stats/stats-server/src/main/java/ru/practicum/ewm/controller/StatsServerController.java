@@ -14,7 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static constant.Constants.PATTERN_FOR_DATETIME;
+import static constant.Constants.YYYY_MM_DD_HH_MM_SS;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,8 +32,8 @@ public class StatsServerController {
 
     @GetMapping("/stats")
     public ResponseEntity<List<ViewStats>> getAllStatistics(
-            @RequestParam @DateTimeFormat(pattern = PATTERN_FOR_DATETIME) LocalDateTime start,
-            @RequestParam @DateTimeFormat(pattern = PATTERN_FOR_DATETIME) LocalDateTime end,
+            @RequestParam @DateTimeFormat(pattern = YYYY_MM_DD_HH_MM_SS) LocalDateTime start,
+            @RequestParam @DateTimeFormat(pattern = YYYY_MM_DD_HH_MM_SS) LocalDateTime end,
             @RequestParam(required = false) List<String> uris,
             @RequestParam(defaultValue = "false") Boolean unique) {
         List<ViewStats> stats = statsServerService.getAllStats(start, end, uris, unique);
