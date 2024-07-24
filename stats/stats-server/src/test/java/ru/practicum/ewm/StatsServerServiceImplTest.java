@@ -1,7 +1,7 @@
 package ru.practicum.ewm;
 
-import ru.practicum.ewm.dto.EndpointHit;
-import ru.practicum.ewm.dto.ViewStats;
+import dto.EndpointHit;
+import dto.ViewStats;
 import ru.practicum.ewm.exception.HitDontSaveException;
 import ru.practicum.ewm.mapper.StatsServerMapper;
 import ru.practicum.ewm.model.Hit;

@@ -1,8 +1,8 @@
 package ru.practicum.ewm;
 
 import ru.practicum.ewm.controller.StatsServerController;
-import ru.practicum.ewm.dto.EndpointHit;
-import ru.practicum.ewm.dto.ViewStats;
+import dto.EndpointHit;
+import dto.ViewStats;
 import ru.practicum.ewm.service.StatsServerServiceImpl;
 
 import java.nio.charset.StandardCharsets;

@@ -1,4 +1,4 @@
-package ru.practicum.ewm.dto;
+package dto;
 
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonFormat;

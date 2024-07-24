@@ -1,6 +1,6 @@
 package ru.practicum.ewm.repository;
 
-import ru.practicum.ewm.dto.ViewStats;
+import dto.ViewStats;
 import ru.practicum.ewm.model.Hit;
 
 import java.time.LocalDateTime;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface StatsServerRepository extends JpaRepository<Hit, Long> {
 
-    @Query("select new ru.practicum.ewm.dto.ViewStats(h.app, h.uri, COUNT(h.ip) as count_ip) " +
+    @Query("select new dto.ViewStats(h.app, h.uri, COUNT(h.ip) as count_ip) " +
             "from Hit as h " +
             "where h.timestamp >= ?1  " +
             "and h.timestamp <= ?2 " +
@@ -22,7 +22,7 @@ public interface StatsServerRepository extends JpaRepository<Hit, Long> {
             "order by count_ip desc ")
     List<ViewStats> getAllStatsWithUris(LocalDateTime start, LocalDateTime end, List<String> uris);
 
-    @Query("select new ru.practicum.ewm.dto.ViewStats(h.app, h.uri, COUNT(DISTINCT(h.ip)) as count_ip) " +
+    @Query("select new dto.ViewStats(h.app, h.uri, COUNT(DISTINCT(h.ip)) as count_ip) " +
             "from Hit as h " +
             "where h.timestamp >= ?1  " +
             "and h.timestamp <= ?2 " +
@@ -30,7 +30,7 @@ public interface StatsServerRepository extends JpaRepository<Hit, Long> {
             "order by count_ip desc ")
     List<ViewStats> getAllUniqueStats(LocalDateTime start, LocalDateTime end);
 
-    @Query("select new ru.practicum.ewm.dto.ViewStats(h.app, h.uri, COUNT(DISTINCT(h.ip)) as count_ip) " +
+    @Query("select new dto.ViewStats(h.app, h.uri, COUNT(DISTINCT(h.ip)) as count_ip) " +
             "from Hit as h " +
             "where h.timestamp >= ?1  " +
             "and h.timestamp <= ?2 " +
@@ -39,7 +39,7 @@ public interface StatsServerRepository extends JpaRepository<Hit, Long> {
             "order by count_ip desc ")
     List<ViewStats> getAllUniqueStatsWithUris(LocalDateTime start, LocalDateTime end, List<String> uris);
 
-    @Query("select new ru.practicum.ewm.dto.ViewStats(h.app, h.uri, COUNT(h.ip) as count_ip) " +
+    @Query("select new dto.ViewStats(h.app, h.uri, COUNT(h.ip) as count_ip) " +
             "from Hit as h " +
             "where h.timestamp >= ?1  " +
             "and h.timestamp <= ?2 " +

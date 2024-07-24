@@ -1,7 +1,7 @@
 package ru.practicum.ewm;
 
-import ru.practicum.ewm.dto.EndpointHit;
-import ru.practicum.ewm.dto.ViewStats;
+import dto.EndpointHit;
+import dto.ViewStats;
 
 import java.io.IOException;
 import java.lang.reflect.Type;

@@ -1,7 +1,7 @@
 package ru.practicum.ewm.controller;
 
-import ru.practicum.ewm.dto.EndpointHit;
-import ru.practicum.ewm.dto.ViewStats;
+import dto.EndpointHit;
+import dto.ViewStats;
 import ru.practicum.ewm.service.StatsServerService;
 
 import java.time.LocalDateTime;

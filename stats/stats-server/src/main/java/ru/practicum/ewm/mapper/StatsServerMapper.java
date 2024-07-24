@@ -1,6 +1,6 @@
 package ru.practicum.ewm.mapper;
 
-import ru.practicum.ewm.dto.EndpointHit;
+import dto.EndpointHit;
 import ru.practicum.ewm.model.Hit;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
