@@ -2,7 +2,7 @@ package ru.practicum.ewm.service;
 
 import ru.practicum.ewm.dto.EndpointHit;
 import ru.practicum.ewm.dto.ViewStats;
-import ru.practicum.ewm.exception.HitNotSaveException;
+import ru.practicum.ewm.exception.HitDontSaveException;
 import ru.practicum.ewm.mapper.StatsServerMapper;
 import ru.practicum.ewm.model.Hit;
 import ru.practicum.ewm.repository.StatsServerRepository;
@@ -23,12 +23,12 @@ public class StatsServerServiceImpl implements StatsServerService {
 
     @Transactional
     @Override
-    public EndpointHit saveEndpointHit(EndpointHit endpointHit) {
+    public EndpointHit saveEndpHit(EndpointHit endpointHit) {
         try {
             Hit hit = statsServerRepository.save(StatsServerMapper.INSTANCE.toHit(endpointHit));
             return StatsServerMapper.INSTANCE.toEndpointHit(hit);
         } catch (DataIntegrityViolationException e) {
-            throw new HitNotSaveException("Информация о запросе не была сохранена: " + endpointHit);
+            throw new HitDontSaveException("Информация о запросе не была сохранена: " + endpointHit);
         }
     }
 

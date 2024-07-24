@@ -51,7 +51,7 @@ class StatsServerControllerIntegrationTest {
         endpointHit.setIp("23.23.23.23");
         endpointHit.setTimestamp(LocalDateTime.now().format(FORMATTER_FOR_DATETIME));
 
-        when(statsServerService.saveEndpointHit(any(EndpointHit.class))).thenReturn(endpointHit);
+        when(statsServerService.saveEndpHit(any(EndpointHit.class))).thenReturn(endpointHit);
 
         String result = mockMvc.perform(post("/hit")
                         .characterEncoding(StandardCharsets.UTF_8)
@@ -64,7 +64,7 @@ class StatsServerControllerIntegrationTest {
                 .getContentAsString(StandardCharsets.UTF_8);
 
         assertThat(objectMapper.writeValueAsString(endpointHit), equalTo(result));
-        verify(statsServerService, times(1)).saveEndpointHit(endpointHit);
+        verify(statsServerService, times(1)).saveEndpHit(endpointHit);
     }
 
     @SneakyThrows

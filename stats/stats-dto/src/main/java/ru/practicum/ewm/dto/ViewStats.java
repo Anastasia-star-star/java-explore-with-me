@@ -6,10 +6,10 @@ import lombok.*;
 @AllArgsConstructor
 public class ViewStats {
 
-    private String app; // Название сервиса
+    private String app;
 
-    private String uri; // URI сервиса
+    private String uri;
 
-    private Long hits; //  Количество просмотров
+    private Long hits;
 
 }

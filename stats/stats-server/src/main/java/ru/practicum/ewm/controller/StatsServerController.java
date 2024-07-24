@@ -24,21 +24,14 @@ public class StatsServerController {
     private final StatsServerService statsServerService;
 
     @PostMapping("/hit")
-    /**
-     * Сохранение информации о том, что на uri конкретного сервиса был отправлен запрос пользователем.
-     */
     public ResponseEntity<EndpointHit> saveHit(@RequestBody EndpointHit endpointHitDto) {
-        endpointHitDto = statsServerService.saveEndpointHit(endpointHitDto);
-        log.info("Добавлена новая информация о запросе: {}", endpointHitDto);
+        endpointHitDto = statsServerService.saveEndpHit(endpointHitDto);
+        log.info("Добавлена новая информация о запросе");
         return ResponseEntity.status(HttpStatus.CREATED).body(endpointHitDto);
     }
 
     @GetMapping("/stats")
-    /**
-     *
-     Получение статистики по посещениям.
-     */
-    public ResponseEntity<List<ViewStats>> getAllStats(
+    public ResponseEntity<List<ViewStats>> getAllStatistics(
             @RequestParam @DateTimeFormat(pattern = PATTERN_FOR_DATETIME) LocalDateTime start,
             @RequestParam @DateTimeFormat(pattern = PATTERN_FOR_DATETIME) LocalDateTime end,
             @RequestParam(required = false) List<String> uris,

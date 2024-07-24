@@ -2,7 +2,7 @@ package ru.practicum.ewm;
 
 import ru.practicum.ewm.dto.EndpointHit;
 import ru.practicum.ewm.dto.ViewStats;
-import ru.practicum.ewm.exception.HitNotSaveException;
+import ru.practicum.ewm.exception.HitDontSaveException;
 import ru.practicum.ewm.mapper.StatsServerMapper;
 import ru.practicum.ewm.model.Hit;
 import ru.practicum.ewm.repository.StatsServerRepository;
@@ -41,7 +41,7 @@ class StatsServerServiceImplTest {
         when(statsServerRepository.save(any(Hit.class)))
                 .thenReturn(StatsServerMapper.INSTANCE.toHit(endpointHitToSave));
 
-        EndpointHit actualEndpointHit = statsServerService.saveEndpointHit(endpointHitToSave);
+        EndpointHit actualEndpointHit = statsServerService.saveEndpHit(endpointHitToSave);
 
         assertThat(endpointHitToSave, equalTo(actualEndpointHit));
         verify(statsServerRepository, times(1)).save(any(Hit.class));
@@ -55,8 +55,8 @@ class StatsServerServiceImplTest {
         when(statsServerRepository.save(any(Hit.class)))
                 .thenThrow(new DataIntegrityViolationException("Информация не была сохранена"));
 
-        final HitNotSaveException exception = assertThrows(HitNotSaveException.class,
-                () -> statsServerService.saveEndpointHit(endpointHitToSave));
+        final HitDontSaveException exception = assertThrows(HitDontSaveException.class,
+                () -> statsServerService.saveEndpHit(endpointHitToSave));
 
         assertThat("Информация о запросе не была сохранена: " + endpointHitToSave,
                 equalTo(exception.getMessage()));

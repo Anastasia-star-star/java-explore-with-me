@@ -26,6 +26,14 @@ public interface StatsServerRepository extends JpaRepository<Hit, Long> {
             "from Hit as h " +
             "where h.timestamp >= ?1  " +
             "and h.timestamp <= ?2 " +
+            "group by h.app, h.uri " +
+            "order by count_ip desc ")
+    List<ViewStats> getAllUniqueStats(LocalDateTime start, LocalDateTime end);
+
+    @Query("select new ru.practicum.ewm.dto.ViewStats(h.app, h.uri, COUNT(DISTINCT(h.ip)) as count_ip) " +
+            "from Hit as h " +
+            "where h.timestamp >= ?1  " +
+            "and h.timestamp <= ?2 " +
             "and h.uri in ?3 " +
             "group by h.app, h.uri " +
             "order by count_ip desc ")
@@ -38,13 +46,4 @@ public interface StatsServerRepository extends JpaRepository<Hit, Long> {
             "group by h.app, h.uri " +
             "order by count_ip desc ")
     List<ViewStats> getAllStats(LocalDateTime start, LocalDateTime end);
-
-    @Query("select new ru.practicum.ewm.dto.ViewStats(h.app, h.uri, COUNT(DISTINCT(h.ip)) as count_ip) " +
-            "from Hit as h " +
-            "where h.timestamp >= ?1  " +
-            "and h.timestamp <= ?2 " +
-            "group by h.app, h.uri " +
-            "order by count_ip desc ")
-    List<ViewStats> getAllUniqueStats(LocalDateTime start, LocalDateTime end);
-
 }
