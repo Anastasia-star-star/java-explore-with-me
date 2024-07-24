@@ -3,7 +3,7 @@ package ru.practicum.ewm.dto;
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import static util.Constants.PATTERN_FOR_DATETIME;
+import static constant.Constants.PATTERN_FOR_DATETIME;
 
 @Data
 public class EndpointHit {

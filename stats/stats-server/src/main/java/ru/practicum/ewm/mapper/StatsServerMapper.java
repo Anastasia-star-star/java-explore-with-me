@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-import static util.Constants.PATTERN_FOR_DATETIME;
+import static constant.Constants.PATTERN_FOR_DATETIME;
 
 @Mapper
 public interface StatsServerMapper {
