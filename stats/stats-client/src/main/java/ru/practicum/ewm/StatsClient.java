@@ -14,6 +14,7 @@ import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.practicum.ewm.exceptions.ClientException;
 
@@ -25,6 +26,7 @@ public class StatsClient {
 
     private final Gson gson;
 
+    @Autowired
     public StatsClient(String serverUrl, Gson gson) {
         this.serverUrl = serverUrl;
         this.gson = gson;
