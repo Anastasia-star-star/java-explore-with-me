@@ -22,6 +22,7 @@ public class StatsClient {
 
     private final HttpClient client = HttpClient.newHttpClient();
     private final String serverUrl;
+
     private final Gson gson;
 
     public StatsClient(String serverUrl, Gson gson) {
@@ -63,7 +64,5 @@ public class StatsClient {
         } catch (NullPointerException | IOException | InterruptedException e) {
             throw new ClientException("Ошибка в клиенте статистики при выполнении запроса: " + request);
         }
-
     }
-
 }
