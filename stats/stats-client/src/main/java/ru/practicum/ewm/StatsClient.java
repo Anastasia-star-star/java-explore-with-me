@@ -13,19 +13,20 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import org.springframework.stereotype.Component;
 import ru.practicum.ewm.exceptions.ClientException;
 
+@Component
 public class StatsClient {
 
     private final HttpClient client = HttpClient.newHttpClient();
     private final String serverUrl;
+    private final Gson gson;
 
-    private final Gson gson = getGson();
-
-    public StatsClient(String serverUrl) {
+    public StatsClient(String serverUrl, Gson gson) {
         this.serverUrl = serverUrl;
+        this.gson = gson;
     }
 
     public EndpointHit saveHit(EndpointHit endpointHitDto) {
@@ -63,11 +64,6 @@ public class StatsClient {
             throw new ClientException("Ошибка в клиенте статистики при выполнении запроса: " + request);
         }
 
-    }
-
-    private static Gson getGson() {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        return gsonBuilder.create();
     }
 
 }
