@@ -54,7 +54,6 @@ public class StatsClient {
                 .header("unique", "unique")
                 .GET()
                 .build();
-        String key = "";
         try {
             final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             Type userType = new TypeToken<List<ViewStats>>() {
