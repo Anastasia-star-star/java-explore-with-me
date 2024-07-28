@@ -49,7 +49,7 @@ class StatsServerControllerTest {
         endpointHit.setApp("app");
         endpointHit.setUri("/uri");
         endpointHit.setIp("23.23.23.23");
-        endpointHit.setTimestamp(LocalDateTime.now().format(FORMATTER_FOR_DATETIME));
+        endpointHit.setTimestamp(LocalDateTime.now());
 
         when(statsServerService.saveEndpHit(any(EndpointHit.class))).thenReturn(endpointHit);
 
