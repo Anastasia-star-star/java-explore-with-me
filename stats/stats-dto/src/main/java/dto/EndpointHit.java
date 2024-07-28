@@ -7,6 +7,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import java.time.LocalDateTime;
+
 import static constant.Constants.YYYY_MM_DD_HH_MM_SS;
 
 @Data
@@ -29,6 +31,6 @@ public class EndpointHit {
     @NotNull(message = "Date and time must not be null.")
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = YYYY_MM_DD_HH_MM_SS)
-    private String timestamp;
+    private LocalDateTime timestamp;
 
 }
