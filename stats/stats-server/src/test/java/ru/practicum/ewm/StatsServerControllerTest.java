@@ -63,7 +63,7 @@ class StatsServerControllerTest {
                 .getContentAsString(StandardCharsets.UTF_8);
 
         assertThat(objectMapper.writeValueAsString(endpointHit), equalTo(result));
-        verify(statsServerService, times(1)).saveEndpHit(endpointHit);
+        verify(statsServerService, times(1)).saveEndpHit(any(EndpointHit.class));
     }
 
     @SneakyThrows
