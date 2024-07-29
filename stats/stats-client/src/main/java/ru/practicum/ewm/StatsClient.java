@@ -15,6 +15,7 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import org.springframework.web.util.UriComponentsBuilder;
 import ru.practicum.ewm.exceptions.ClientException;
 
 public class StatsClient {
@@ -63,6 +64,33 @@ public class StatsClient {
             throw new ClientException("Ошибка в клиенте статистики при выполнении запроса: " + request);
         }
 
+    }
+
+    public List<ViewStats> getAllStats(String start, String end,
+                                       List<String> uris, Boolean unique) {
+        URI uri = UriComponentsBuilder.fromUriString(serverUrl)
+                .path("/stats")
+                .queryParam("start", start)
+                .queryParam("end", end)
+                .queryParam("uris", uris)
+                .queryParam("unique", unique)
+                .encode()
+                .build()
+                .toUri();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(uri)
+                .GET()
+                .build();
+
+        try {
+            final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            Type userType = new TypeToken<List<ViewStats>>() {
+            }.getType();
+            return gson.fromJson(response.body(), userType);
+        } catch (NullPointerException | IOException | InterruptedException e) {
+            throw new ClientException("Ошибка в клиенте статистики при выполнении запроса: " + request);
+        }
     }
 
     private static Gson getGson() {
