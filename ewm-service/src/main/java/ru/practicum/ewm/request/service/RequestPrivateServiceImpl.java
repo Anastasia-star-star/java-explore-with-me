@@ -55,7 +55,7 @@ public class RequestPrivateServiceImpl implements RequestPrivateService {
                     "userId = %s, eventId = %s.", userId, eventId));
         }
         if (event.getParticipantLimit() > 0) {
-            if (event.getParticipantLimit() <= requestRepository.countByEventIdAndStatus(eventId, StateRequest.CONFIRMED)) {
+            if (event.getParticipantLimit() <= requestRepository.countByEventIdAndStatus(eventId, StateRequest.PENDING)) {
                 throw new ConflictException(String.format("У события достигнут лимит запросов на участие, " +
                         "userId = %s, eventId = %s.", userId, eventId));
             }
@@ -67,9 +67,9 @@ public class RequestPrivateServiceImpl implements RequestPrivateService {
         participationRequest.setCreated(LocalDateTime.now());
 
         if (event.getRequestModeration() && !event.getParticipantLimit().equals(0)) {
-            participationRequest.setStatus(StateRequest.PENDING);
-        } else {
             participationRequest.setStatus(StateRequest.CONFIRMED);
+        } else {
+            participationRequest.setStatus(StateRequest.PENDING);
             event.setConfirmedRequests(event.getConfirmedRequests() + 1);
             eventRepository.saveAndFlush(event);
         }
