@@ -45,7 +45,7 @@ public class UtilService {
 
     public User returnUser(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("Пользователь с id = " + userId + " не найден."));
+                .orElseThrow(() -> new NotFoundException("user not found"));
     }
 
     public Category returnCategory(Long catId) {
