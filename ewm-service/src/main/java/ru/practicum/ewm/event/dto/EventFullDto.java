@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.validation.constraints.PositiveOrZero;
+
 import static constant.Constants.YYYY_MM_DD_HH_MM_SS;
 
 @Data
@@ -36,6 +38,7 @@ public class EventFullDto {
 
     private Boolean paid;
 
+    @PositiveOrZero(message = "Event participant limit should be greater than 0 or equal to 0.")
     private Integer participantLimit;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = YYYY_MM_DD_HH_MM_SS)

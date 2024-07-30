@@ -5,6 +5,7 @@ import ru.practicum.ewm.event.model.StateActionUser;
 
 import java.time.LocalDateTime;
 import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
 import lombok.Data;
@@ -33,6 +34,7 @@ public class UpdateEventUserRequest {
 
     private Boolean paid;
 
+    @PositiveOrZero(message = "Event participant limit should be greater than 0 or equal to 0.")
     private Integer participantLimit;
 
     private Boolean requestModeration;

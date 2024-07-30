@@ -31,6 +31,7 @@ public class UpdateEventAdminRequest {
 
     private Boolean paid;
 
+    @PositiveOrZero(message = "Event participant limit should be greater than 0 or equal to 0.")
     private Integer participantLimit;
 
     private Boolean requestModeration;
