@@ -6,32 +6,29 @@ import javax.validation.constraints.*;
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.validator.constraints.Length;
-import ru.practicum.ewm.event.dto.creating.LocationDto;
 
 import static constant.Constants.YYYY_MM_DD_HH_MM_SS;
 
 @Data
 public class NewEventDto {
 
-    @NotBlank(message = "Ошибка! Краткое описание события не может быть пустым.")
-    @Size(min = 20, max = 2000, message =
-            "Ошибка! Краткое описание события может содержать минимум 20, максимум 2000 символов.")
+    @NotBlank(message = "Event annotation should not be blank.")
+    @Length(min = 20, max = 2000, message = "Event annotation should be between 20 and 2000 characters.")
     private String annotation;
 
-    @NotNull(message = "Ошибка! id категории, к которой относится событие, не может быть пустым.")
+    @NotNull(message = "Event category should not be undefined.")
     private Long category;
 
-    @NotBlank(message = "Ошибка! Полное описание события не может быть пустым.")
-    @Size(min = 20, max = 7000, message =
-            "Ошибка! Полное описание события может содержать минимум 20, максимум 7000 символов.")
+    @NotBlank(message = "Event description should not be blank.")
+    @Length(min = 20, max = 7000, message = "Event description should be between 20 and 7000 characters.")
     private String description;
 
-    @NotNull(message = "Ошибка! Дата и время, на которые намечено событие, не могут быть пустыми.")
-    @FutureOrPresent(message = "Ошибка! Дата события должна еще не наступить.")
+    @NotNull(message = "Event event date should not be undefined.")
+    @FutureOrPresent
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = YYYY_MM_DD_HH_MM_SS)
     private LocalDateTime eventDate;
 
-    @NotNull(message = "Ошибка! Широта и долгота места проведения события не могут быть пустыми.")
+    @NotNull(message = "Event location should not be undefined.")
     private LocationDto location;
 
     private Boolean paid = false;
@@ -41,7 +38,7 @@ public class NewEventDto {
 
     private Boolean requestModeration = true;
 
-    @NotBlank(message = "Ошибка! Заголовок события не может быть пустым.")
+    @NotBlank(message = "Event title should not be blank.")
     @Length(min = 3, max = 120, message = "Event title should be between 3 and 120 characters.")
     private String title;
 

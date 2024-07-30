@@ -9,10 +9,10 @@ public class LocationDto {
 
     private Long id;
 
-    @NotNull(message = "Ошибка! Широта не может быть пустой.")
+    @NotNull(message = "lat should not be undefined.")
     private Float lat;
 
-    @NotNull(message = "Ошибка! Долгота не может быть пустой.")
+    @NotNull(message = "lon should not be undefined.")
     private Float lon;
 
 }

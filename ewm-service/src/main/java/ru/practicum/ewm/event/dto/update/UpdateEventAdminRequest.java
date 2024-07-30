@@ -6,7 +6,6 @@ import ru.practicum.ewm.event.model.StateActionAdmin;
 
 import java.time.LocalDateTime;
 import javax.validation.constraints.PositiveOrZero;
-import javax.validation.constraints.Size;
 
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -16,14 +15,12 @@ import static constant.Constants.YYYY_MM_DD_HH_MM_SS;
 @Data
 public class UpdateEventAdminRequest {
 
-    @Size(min = 20, max = 2000, message =
-            "Ошибка! Краткое описание события может содержать минимум 20, максимум 2000 символов.")
+    @Length(min = 20, max = 2000, message = "Event annotation should be between 20 and 2000 characters.")
     private String annotation;
 
     private Long category;
 
-    @Size(min = 20, max = 7000, message =
-            "Ошибка! Полное описание события может содержать минимум 20, максимум 7000 символов.")
+    @Length(min = 20, max = 7000, message = "Event description should be between 20 and 7000 characters.")
     private String description;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = YYYY_MM_DD_HH_MM_SS)
