@@ -66,10 +66,14 @@ public class RequestPrivateServiceImpl implements RequestPrivateService {
         participationRequest.setEvent(event);
         participationRequest.setCreated(LocalDateTime.now());
 
-        if (event.getRequestModeration() && !event.getParticipantLimit().equals(0)) {
-            participationRequest.setStatus(StateRequest.CONFIRMED);
+        if (event.getRequestModeration().equals(Boolean.TRUE)) {
+            if (event.getParticipantLimit() == 0) {
+                participationRequest.setStatus(StateRequest.CONFIRMED);
+            } else {
+                participationRequest.setStatus(StateRequest.PENDING);
+            }
         } else {
-            participationRequest.setStatus(StateRequest.PENDING);
+            participationRequest.setStatus(StateRequest.CONFIRMED);
             event.setConfirmedRequests(event.getConfirmedRequests() + 1);
             eventRepository.saveAndFlush(event);
         }
