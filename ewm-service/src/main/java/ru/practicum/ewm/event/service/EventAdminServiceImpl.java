@@ -1,6 +1,5 @@
 package ru.practicum.ewm.event.service;
 
-import ru.practicum.ewm.category.model.Category;
 import ru.practicum.ewm.event.dto.info.EventFullDto;
 import ru.practicum.ewm.event.dto.update.UpdateEventAdminRequest;
 import ru.practicum.ewm.event.mapper.EventMapper;
@@ -16,6 +15,7 @@ import ru.practicum.ewm.util.UtilService;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
@@ -67,68 +67,56 @@ public class EventAdminServiceImpl implements EventAdminService {
     @Override
     public EventFullDto updateEventByAdmin(Long eventId, UpdateEventAdminRequest updateEventAdminRequest) {
         Event event = utilService.returnEvent(eventId);
-        if (updateEventAdminRequest.getAnnotation() != null) {
-            event.setAnnotation(updateEventAdminRequest.getAnnotation());
-        }
-        if (updateEventAdminRequest.getCategory() != null) {
-            Category category = utilService.returnCategory(updateEventAdminRequest.getCategory());
-            event.setCategory(category);
-        }
-        if (updateEventAdminRequest.getDescription() != null) {
-            event.setDescription(updateEventAdminRequest.getDescription());
-        }
-        if (updateEventAdminRequest.getEventDate() != null &&
-                LocalDateTime.now().plusHours(1).isAfter(updateEventAdminRequest.getEventDate())) {
-            throw new BadRequestException(String.format("Дата начала изменяемого события должна быть не ранее, " +
-                            "чем за час от даты публикации, eventId = %s, updateEventAdminRequest: %s.",
-                    eventId, updateEventAdminRequest));
-        }
-        if (updateEventAdminRequest.getLocation() != null) {
-            Location location = utilService.returnLocation(updateEventAdminRequest.getLocation());
-            event.setLocation(location);
-        }
-        if (updateEventAdminRequest.getPaid() != null) {
-            event.setPaid(updateEventAdminRequest.getPaid());
-        }
-        if (updateEventAdminRequest.getParticipantLimit() != null) {
-            event.setParticipantLimit(updateEventAdminRequest.getParticipantLimit());
-        }
-        if (updateEventAdminRequest.getRequestModeration() != null) {
-            event.setRequestModeration(updateEventAdminRequest.getRequestModeration());
-        }
-        if (updateEventAdminRequest.getStateAction() != null) {
-            if (updateEventAdminRequest.getStateAction().equals(StateActionAdmin.PUBLISH_EVENT) &&
-                    !event.getState().equals(StateEvent.PENDING)) {
-                throw new ConflictException(String.format("Событие можно публиковать только, если оно в состоянии " +
-                                "ожидания публикации, eventId = %s, updateEventAdminRequest: %s.",
+
+        Optional.ofNullable(updateEventAdminRequest.getAnnotation()).ifPresent(event::setAnnotation);
+        Optional.ofNullable(updateEventAdminRequest.getCategory())
+                .map(utilService::returnCategory)
+                .ifPresent(event::setCategory);
+        Optional.ofNullable(updateEventAdminRequest.getDescription()).ifPresent(event::setDescription);
+
+        Optional.ofNullable(updateEventAdminRequest.getEventDate())
+                .ifPresent(eventDate -> {
+                    if (LocalDateTime.now().plusHours(1).isAfter(eventDate)) {
+                        throw new BadRequestException(String.format(
+                                "Дата начала изменяемого события должна быть не ранее, чем за час от даты публикации, eventId = %s, updateEventAdminRequest: %s.",
+                                eventId, updateEventAdminRequest));
+                    }
+                    event.setEventDate(eventDate);
+                });
+
+        Optional.ofNullable(updateEventAdminRequest.getLocation())
+                .map(utilService::returnLocation)
+                .ifPresent(event::setLocation);
+
+        Optional.ofNullable(updateEventAdminRequest.getPaid()).ifPresent(event::setPaid);
+        Optional.ofNullable(updateEventAdminRequest.getParticipantLimit()).ifPresent(event::setParticipantLimit);
+        Optional.ofNullable(updateEventAdminRequest.getRequestModeration()).ifPresent(event::setRequestModeration);
+
+        Optional.ofNullable(updateEventAdminRequest.getStateAction()).ifPresent(stateAction -> {
+            if (stateAction.equals(StateActionAdmin.PUBLISH_EVENT) && !event.getState().equals(StateEvent.PENDING)) {
+                throw new ConflictException(String.format(
+                        "Событие можно публиковать только, если оно в состоянии ожидания публикации, eventId = %s, updateEventAdminRequest: %s.",
                         eventId, updateEventAdminRequest));
             }
-            if (updateEventAdminRequest.getStateAction().equals(StateActionAdmin.REJECT_EVENT) &&
-                    event.getState().equals(StateEvent.PUBLISHED)) {
-                throw new ConflictException(String.format("событие можно отклонить только, если оно еще " +
-                                "не опубликовано, eventId = %s, updateEventAdminRequest: %s.",
-                        eventId, updateEventAdminRequest));
+            if (stateAction.equals(StateActionAdmin.REJECT_EVENT) && event.getState().equals(StateEvent.PUBLISHED)) {
+                throw new ConflictException("The event cannot be rejected");
             }
 
-            switch (updateEventAdminRequest.getStateAction()) {
-                case PUBLISH_EVENT:
+            switch (stateAction) {
+                case PUBLISH_EVENT -> {
                     event.setState(StateEvent.PUBLISHED);
                     event.setPublishedOn(LocalDateTime.now());
-                    break;
-                case REJECT_EVENT:
-                    event.setState(StateEvent.CANCELED);
-                    break;
+                }
+                case REJECT_EVENT -> event.setState(StateEvent.CANCELED);
             }
-        }
-        if (updateEventAdminRequest.getTitle() != null) {
-            event.setTitle(updateEventAdminRequest.getTitle());
-        }
+        });
+
+        Optional.ofNullable(updateEventAdminRequest.getTitle()).ifPresent(event::setTitle);
 
         try {
             return EventMapper.INSTANCE.toEventFullDto(eventRepository.saveAndFlush(event));
         } catch (DataIntegrityViolationException e) {
-            throw new NotSaveException("Событие с id = " + eventId + ", не было обновлено: " +
-                    updateEventAdminRequest);
+            throw new NotSaveException("Event don't update");
         }
     }
 
