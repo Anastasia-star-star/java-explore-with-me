@@ -55,7 +55,7 @@ public class RequestPrivateServiceImpl implements RequestPrivateService {
                     "userId = %s, eventId = %s.", userId, eventId));
         }
         if (event.getParticipantLimit() > 0) {
-            if (event.getParticipantLimit() <= requestRepository.countByEventIdAndStatus(eventId, StateRequest.PENDING)) {
+            if (event.getParticipantLimit() <= requestRepository.countByEventIdAndStatus(eventId, StateRequest.CONFIRMED)) {
                 throw new ConflictException(String.format("У события достигнут лимит запросов на участие, " +
                         "userId = %s, eventId = %s.", userId, eventId));
             }
