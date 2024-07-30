@@ -2,10 +2,10 @@ package ru.practicum.ewm.event;
 
 import ru.practicum.ewm.category.model.Category;
 import ru.practicum.ewm.event.controller.EventPublicController;
-import ru.practicum.ewm.event.dto.EventFullDto;
-import ru.practicum.ewm.event.dto.EventShortDto;
-import ru.practicum.ewm.event.dto.LocationDto;
-import ru.practicum.ewm.event.dto.NewEventDto;
+import ru.practicum.ewm.event.dto.info.EventFullDto;
+import ru.practicum.ewm.event.dto.info.EventShortDto;
+import ru.practicum.ewm.event.dto.creating.LocationDto;
+import ru.practicum.ewm.event.dto.creating.NewEventDto;
 import ru.practicum.ewm.event.mapper.EventMapper;
 import ru.practicum.ewm.event.mapper.LocationMapper;
 import ru.practicum.ewm.event.model.Event;

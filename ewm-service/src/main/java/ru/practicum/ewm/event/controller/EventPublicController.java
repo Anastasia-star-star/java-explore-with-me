@@ -1,7 +1,7 @@
 package ru.practicum.ewm.event.controller;
 
-import ru.practicum.ewm.event.dto.EventFullDto;
-import ru.practicum.ewm.event.dto.EventShortDto;
+import ru.practicum.ewm.event.dto.info.EventFullDto;
+import ru.practicum.ewm.event.dto.info.EventShortDto;
 import ru.practicum.ewm.event.model.SortSearch;
 import ru.practicum.ewm.event.service.EventPublicService;
 

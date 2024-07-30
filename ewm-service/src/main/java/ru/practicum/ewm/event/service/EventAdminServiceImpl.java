@@ -1,8 +1,8 @@
 package ru.practicum.ewm.event.service;
 
 import ru.practicum.ewm.category.model.Category;
-import ru.practicum.ewm.event.dto.EventFullDto;
-import ru.practicum.ewm.event.dto.UpdateEventAdminRequest;
+import ru.practicum.ewm.event.dto.info.EventFullDto;
+import ru.practicum.ewm.event.dto.update.UpdateEventAdminRequest;
 import ru.practicum.ewm.event.mapper.EventMapper;
 import ru.practicum.ewm.event.model.*;
 import ru.practicum.ewm.event.repository.EventRepository;

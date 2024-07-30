@@ -1,4 +1,4 @@
-package ru.practicum.ewm.event.dto;
+package ru.practicum.ewm.event.dto.creating;
 
 import java.time.LocalDateTime;
 import javax.validation.constraints.*;
@@ -6,6 +6,7 @@ import javax.validation.constraints.*;
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.validator.constraints.Length;
+import ru.practicum.ewm.event.dto.creating.LocationDto;
 
 import static constant.Constants.YYYY_MM_DD_HH_MM_SS;
 

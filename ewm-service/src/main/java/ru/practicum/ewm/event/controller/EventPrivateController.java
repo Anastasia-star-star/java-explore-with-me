@@ -1,6 +1,11 @@
 package ru.practicum.ewm.event.controller;
 
-import ru.practicum.ewm.event.dto.*;
+import ru.practicum.ewm.event.dto.creating.NewEventDto;
+import ru.practicum.ewm.event.dto.info.EventFullDto;
+import ru.practicum.ewm.event.dto.info.EventShortDto;
+import ru.practicum.ewm.event.dto.request.EventRequestStatusUpdateRequest;
+import ru.practicum.ewm.event.dto.request.EventRequestStatusUpdateResult;
+import ru.practicum.ewm.event.dto.update.UpdateEventUserRequest;
 import ru.practicum.ewm.event.service.EventPrivateService;
 import ru.practicum.ewm.request.dto.ParticipationRequestDto;
 

@@ -1,7 +1,7 @@
 package ru.practicum.ewm.event.controller;
 
-import ru.practicum.ewm.event.dto.EventFullDto;
-import ru.practicum.ewm.event.dto.UpdateEventAdminRequest;
+import ru.practicum.ewm.event.dto.info.EventFullDto;
+import ru.practicum.ewm.event.dto.update.UpdateEventAdminRequest;
 import ru.practicum.ewm.event.model.StateEvent;
 import ru.practicum.ewm.event.service.EventAdminService;
 

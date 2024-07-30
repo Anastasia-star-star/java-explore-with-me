@@ -1,8 +1,8 @@
 package ru.practicum.ewm.event;
 
 import ru.practicum.ewm.category.dto.CategoryDto;
-import ru.practicum.ewm.event.dto.EventFullDto;
-import ru.practicum.ewm.event.dto.LocationDto;
+import ru.practicum.ewm.event.dto.info.EventFullDto;
+import ru.practicum.ewm.event.dto.creating.LocationDto;
 import ru.practicum.ewm.event.model.StateEvent;
 import ru.practicum.ewm.user.dto.UserShortDto;
 

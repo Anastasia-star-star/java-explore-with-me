@@ -6,7 +6,7 @@ import ru.practicum.ewm.category.repository.CategoryRepository;
 import ru.practicum.ewm.compilation.model.Compilation;
 import ru.practicum.ewm.compilation.repository.CompilationRepository;
 
-import ru.practicum.ewm.event.dto.LocationDto;
+import ru.practicum.ewm.event.dto.creating.LocationDto;
 import ru.practicum.ewm.event.mapper.LocationMapper;
 import ru.practicum.ewm.event.model.Event;
 import ru.practicum.ewm.event.model.Location;

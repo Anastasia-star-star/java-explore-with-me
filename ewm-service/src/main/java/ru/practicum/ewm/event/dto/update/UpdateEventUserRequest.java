@@ -1,6 +1,7 @@
-package ru.practicum.ewm.event.dto;
+package ru.practicum.ewm.event.dto.update;
 
 import org.hibernate.validator.constraints.Length;
+import ru.practicum.ewm.event.dto.creating.LocationDto;
 import ru.practicum.ewm.event.model.StateActionUser;
 
 import java.time.LocalDateTime;
