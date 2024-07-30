@@ -37,22 +37,19 @@ public class StatsServerServiceImpl implements StatsServerService {
     @Override
     public List<ViewStats> getAllStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
         if (end.isBefore(start)) {
-            throw new BadRequestException("Дата и время конца должны быть после даты и времени начала.");
+            throw new BadRequestException("Date must be before time start");
         }
+
+        boolean hasUris = uris != null;
 
         if (unique) {
-            if (uris == null) {
-                return statsServerRepository.getAllUniqueStats(start, end);
-            } else {
-                return statsServerRepository.getAllUniqueStatsWithUris(start, end, uris);
-            }
+            return hasUris ?
+                    statsServerRepository.getAllUniqueStatsWithUris(start, end, uris) :
+                    statsServerRepository.getAllUniqueStats(start, end);
         } else {
-            if (uris == null) {
-                return statsServerRepository.getAllStats(start, end);
-            } else {
-                return statsServerRepository.getAllStatsWithUris(start, end, uris);
-            }
+            return hasUris ?
+                    statsServerRepository.getAllStatsWithUris(start, end, uris) :
+                    statsServerRepository.getAllStats(start, end);
         }
     }
-
 }
