@@ -1,10 +1,7 @@
 package ru.practicum.ewm.event.dto;
 
 import java.time.LocalDateTime;
-import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -38,6 +35,7 @@ public class NewEventDto {
 
     private Boolean paid = false;
 
+    @PositiveOrZero(message = "Event participant limit should be greater than 0 or equal to 0.")
     private Integer participantLimit = 0;
 
     private Boolean requestModeration = true;
