@@ -2,6 +2,7 @@ package ru.practicum.ewm.service;
 
 import dto.EndpointHit;
 import dto.ViewStats;
+import ru.practicum.ewm.exception.BadRequestException;
 import ru.practicum.ewm.exception.HitDontSaveException;
 import ru.practicum.ewm.mapper.StatsServerMapper;
 import ru.practicum.ewm.model.Hit;
@@ -35,6 +36,10 @@ public class StatsServerServiceImpl implements StatsServerService {
     @Transactional(readOnly = true)
     @Override
     public List<ViewStats> getAllStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
+        if (end.isBefore(start)) {
+            throw new BadRequestException("Дата и время конца должны быть после даты и времени начала.");
+        }
+
         if (unique) {
             if (uris == null) {
                 return statsServerRepository.getAllUniqueStats(start, end);
