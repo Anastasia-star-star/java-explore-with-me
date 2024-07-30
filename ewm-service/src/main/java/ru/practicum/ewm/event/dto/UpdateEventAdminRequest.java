@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.Length;
 import ru.practicum.ewm.event.model.StateActionAdmin;
 
 import java.time.LocalDateTime;
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
 import lombok.Data;
