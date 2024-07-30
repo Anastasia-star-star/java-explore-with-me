@@ -24,22 +24,20 @@ public class StatsServerController {
     private final StatsServerService statsServerService;
 
     @PostMapping("/hit")
-    public ResponseEntity<EndpointHit> saveHit(@RequestBody EndpointHit endpointHitDto) {
+    public ResponseEntity<EndpointHit> saveEndpHit(@RequestBody EndpointHit endpointHitDto) {
         endpointHitDto = statsServerService.saveEndpHit(endpointHitDto);
-        log.info("Добавлена новая информация о запросе");
+        log.info("Add new info");
         return ResponseEntity.status(HttpStatus.CREATED).body(endpointHitDto);
     }
 
     @GetMapping("/stats")
-    public ResponseEntity<List<ViewStats>> getAllStatistics(
+    public ResponseEntity<List<ViewStats>> getAllStats(
             @RequestParam @DateTimeFormat(pattern = YYYY_MM_DD_HH_MM_SS) LocalDateTime start,
             @RequestParam @DateTimeFormat(pattern = YYYY_MM_DD_HH_MM_SS) LocalDateTime end,
             @RequestParam(required = false) List<String> uris,
             @RequestParam(defaultValue = "false") Boolean unique) {
-        List<ViewStats> stats = statsServerService.getAllStats(start, end, uris, unique);
-        log.info("Получена статистика по посещениям start = {}, end = {}, uris = {}, unique = {}.",
-                start, end, uris, unique);
-        return ResponseEntity.ok().body(stats);
+        log.info("Getting stats ");
+        return ResponseEntity.ok().body(statsServerService.getAllStats(start, end, uris, unique));
     }
 
 }
