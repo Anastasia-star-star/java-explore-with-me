@@ -20,7 +20,7 @@ public class ErrorHandler {
         );
     }
 
-    @ExceptionHandler({HitNotSaveException.class})
+    @ExceptionHandler({HitDontSaveException.class})
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handleNotSaveAndUpdate(final RuntimeException e) {
         log.warn(e.getMessage());
