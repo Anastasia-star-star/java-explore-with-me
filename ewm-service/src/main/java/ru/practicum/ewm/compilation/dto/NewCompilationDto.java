@@ -2,7 +2,6 @@ package ru.practicum.ewm.compilation.dto;
 
 import java.util.Set;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
