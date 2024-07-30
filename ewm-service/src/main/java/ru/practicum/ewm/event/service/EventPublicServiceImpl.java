@@ -47,11 +47,7 @@ public class EventPublicServiceImpl implements EventPublicService {
         Pageable page = PageRequest.of(from, size, Sort.by(Sort.Direction.ASC, "eventDate"));
 
         if (rangeStart != null && rangeEnd != null && rangeStart.isAfter(rangeEnd)) {
-            throw new BadRequestException(String.format("Дата и время не позже которых должно произойти событие " +
-                            "должно быть позже даты и времени  не раньше которых должно произойти событие, " +
-                            "text = %s, categories = %s, paid = %s, rangeStart = %s, rangeEnd = %s, " +
-                            "onlyAvailable = %s, sort = %s, from = %s, size = %s.",
-                    text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size));
+            throw new BadRequestException("Bad request upon getting events");
         }
 
         EndpointHit endpointHit = new EndpointHit();
@@ -99,7 +95,7 @@ public class EventPublicServiceImpl implements EventPublicService {
     public EventFullDto getPublicEventById(Long eventId, HttpServletRequest request) {
         Event event = utilService.returnEvent(eventId);
         if (!event.getState().equals(StateEvent.PUBLISHED)) {
-            throw new NotFoundException("Cобытие с id = " + eventId + " должно быть опубликовано.");
+            throw new NotFoundException("The event must be published");
         }
 
         EndpointHit endpointHit = new EndpointHit();
