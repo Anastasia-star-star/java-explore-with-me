@@ -29,6 +29,7 @@ import ru.practicum.ewm.util.Statistic;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -117,53 +118,50 @@ public class EventPrivateServiceImpl implements EventPrivateService {
             throw new ConflictException(String.format("Событие не должно быть опубликовано, userId = %s, " +
                     "eventId = %s, updateEventUserRequest: %s.", userId, eventId, updateEventUserRequest));
         }
-        if (updateEventUserRequest.getAnnotation() != null) {
-            event.setAnnotation(updateEventUserRequest.getAnnotation());
-        }
-        if (updateEventUserRequest.getCategory() != null) {
-            Category category = utilService.returnCategory(updateEventUserRequest.getCategory());
-            event.setCategory(category);
-        }
-        if (updateEventUserRequest.getDescription() != null) {
-            event.setDescription(updateEventUserRequest.getDescription());
-        }
-        if (updateEventUserRequest.getEventDate() != null) {
-            if (updateEventUserRequest.getEventDate().plusHours(2).isBefore(LocalDateTime.now())) {
-                throw new BadRequestException(String.format("Дата и время на которые намечено событие " +
-                        "не может быть раньше, чем через два часа от текущего момента, userId = %s, eventId = %s, " +
-                        "updateEventUserRequest: %s.", userId, eventId, updateEventUserRequest));
-            }
-            event.setEventDate(updateEventUserRequest.getEventDate());
-        }
-        if (updateEventUserRequest.getLocation() != null) {
-            Location location = utilService.returnLocation(updateEventUserRequest.getLocation());
-            event.setLocation(location);
-        }
-        if (updateEventUserRequest.getPaid() != null) {
-            event.setPaid(updateEventUserRequest.getPaid());
-        }
-        if (updateEventUserRequest.getParticipantLimit() != null) {
-            event.setParticipantLimit(updateEventUserRequest.getParticipantLimit());
-        }
-        if (updateEventUserRequest.getRequestModeration() != null) {
-            event.setRequestModeration(updateEventUserRequest.getRequestModeration());
-        }
-        if (updateEventUserRequest.getStateAction() != null) {
+
+        Optional.ofNullable(updateEventUserRequest.getAnnotation()).ifPresent(event::setAnnotation);
+
+        Optional.ofNullable(updateEventUserRequest.getCategory())
+                .map(utilService::returnCategory)
+                .ifPresent(event::setCategory);
+
+        Optional.ofNullable(updateEventUserRequest.getDescription()).ifPresent(event::setDescription);
+
+        Optional.ofNullable(updateEventUserRequest.getEventDate())
+                .ifPresent(eventDate -> {
+                    if (eventDate.plusHours(2).isBefore(LocalDateTime.now())) {
+                        throw new BadRequestException(String.format("Дата и время на которые намечено событие " +
+                                "не может быть раньше, чем через два часа от текущего момента, userId = %s, eventId = %s, " +
+                                "updateEventUserRequest: %s.", userId, eventId, updateEventUserRequest));
+                    }
+                    event.setEventDate(eventDate);
+                });
+
+        Optional.ofNullable(updateEventUserRequest.getLocation())
+                .map(utilService::returnLocation)
+                .ifPresent(event::setLocation);
+
+        Optional.ofNullable(updateEventUserRequest.getPaid()).ifPresent(event::setPaid);
+        Optional.ofNullable(updateEventUserRequest.getParticipantLimit()).ifPresent(event::setParticipantLimit);
+        Optional.ofNullable(updateEventUserRequest.getRequestModeration()).ifPresent(event::setRequestModeration);
+
+        Optional.ofNullable(updateEventUserRequest.getStateAction()).ifPresent(stateAction -> {
             if (!event.getState().equals(StateEvent.PENDING) && !event.getState().equals(StateEvent.CANCELED)) {
                 throw new ConflictException(String.format("Изменить можно только отмененные события или события " +
                         "в состоянии ожидания модерации, userId = %s, eventId = %s, " +
                         "updateEventUserRequest: %s.", userId, eventId, updateEventUserRequest));
             }
-            if (updateEventUserRequest.getStateAction().equals(StateActionUser.CANCEL_REVIEW)) {
-                event.setState(StateEvent.CANCELED);
+            switch (stateAction) {
+                case CANCEL_REVIEW:
+                    event.setState(StateEvent.CANCELED);
+                    break;
+                case SEND_TO_REVIEW:
+                    event.setState(StateEvent.PENDING);
+                    break;
             }
-            if (updateEventUserRequest.getStateAction().equals(StateActionUser.SEND_TO_REVIEW)) {
-                event.setState(StateEvent.PENDING);
-            }
-        }
-        if (updateEventUserRequest.getTitle() != null) {
-            event.setTitle(updateEventUserRequest.getTitle());
-        }
+        });
+
+        Optional.ofNullable(updateEventUserRequest.getTitle()).ifPresent(event::setTitle);
 
         try {
             return EventMapper.INSTANCE.toEventFullDto(eventRepository.saveAndFlush(event));
@@ -172,6 +170,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
                     "не было обновлено: " + updateEventUserRequest);
         }
     }
+
 
     @Transactional(readOnly = true)
     @Override
