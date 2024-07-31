@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin/categories")
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 public class CategoryAdminController {
 
     private final CategoryAdminService adminService;
 
     @PostMapping
-    @Validated
     public ResponseEntity<CategoryDto> saveCategory(@Valid @RequestBody NewCategoryDto newCategoryDto) {
         log.info("Adding new category");
         return ResponseEntity.status(HttpStatus.CREATED).body(adminService.saveCategory(newCategoryDto));
@@ -35,11 +35,9 @@ public class CategoryAdminController {
     }
 
     @PatchMapping("/{catId}")
-    @Validated
     public ResponseEntity<CategoryDto> updateCategory(@PathVariable Long catId,
                                                       @Valid @RequestBody CategoryDto categoryDto) {
         log.info("Updating category by id {}", catId);
         return ResponseEntity.ok(adminService.updateCategory(catId, categoryDto));
     }
-
 }
