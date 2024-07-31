@@ -12,7 +12,6 @@ import javax.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,18 +24,19 @@ public class UserAdminController {
     private final UserAdminService adminService;
 
     @GetMapping
-    public ResponseEntity<List<UserDto>> getAllUsers(@RequestParam(required = false) List<Long> ids,
+    public List<UserDto> getAllUsers(@RequestParam(required = false) List<Long> ids,
             @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
             @Positive @RequestParam(name = "size", defaultValue = "10") Integer size) {
         log.info("Getting list of users by ids = {}", ids);
-        return ResponseEntity.ok().body(adminService.getAllUsers(ids, from, size));
+        return adminService.getAllUsers(ids, from, size);
     }
 
     @PostMapping
     @Validated
-    public ResponseEntity<UserDto> saveUser(@Valid @RequestBody NewUserRequest newUserRequest) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserDto saveUser(@Valid @RequestBody NewUserRequest newUserRequest) {
         log.info("Adding new users");
-        return ResponseEntity.status(HttpStatus.CREATED).body(adminService.saveUser(newUserRequest));
+        return adminService.saveUser(newUserRequest);
     }
 
     @DeleteMapping("/{userId}")
