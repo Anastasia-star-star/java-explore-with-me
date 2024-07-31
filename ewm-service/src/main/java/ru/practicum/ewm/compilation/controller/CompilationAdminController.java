@@ -10,7 +10,6 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,9 +23,10 @@ public class CompilationAdminController {
     private final CompilationAdminService adminService;
 
     @PostMapping
-    public ResponseEntity<CompilationDto> saveCompilation(@Valid @RequestBody NewCompilationDto newCompilationDto) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public CompilationDto saveCompilation(@Valid @RequestBody NewCompilationDto newCompilationDto) {
         log.info("save new compilation");
-        return ResponseEntity.status(HttpStatus.CREATED).body(adminService.saveCompilation(newCompilationDto));
+        return adminService.saveCompilation(newCompilationDto);
     }
 
     @DeleteMapping("/{compId}")
@@ -37,10 +37,10 @@ public class CompilationAdminController {
     }
 
     @PatchMapping("/{compId}")
-    public ResponseEntity<CompilationDto> updateCompilation(
+    public CompilationDto updateCompilation(
             @PathVariable Long compId, @Valid @RequestBody UpdateCompilationRequest updateCompilationRequest) {
         log.info("update compilation by id = {}", compId);
-        return ResponseEntity.ok(adminService.updateCompilation(compId, updateCompilationRequest));
+        return adminService.updateCompilation(compId, updateCompilationRequest);
     }
 
 }
