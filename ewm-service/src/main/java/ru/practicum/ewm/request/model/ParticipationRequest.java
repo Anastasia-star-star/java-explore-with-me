@@ -5,6 +5,7 @@ import ru.practicum.ewm.user.model.User;
 
 import java.time.LocalDateTime;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,19 +23,23 @@ public class ParticipationRequest {
     @Column(name = "participation_requests_id")
     private Long id;
 
-    @Column(name = "participation_requests_created", nullable = false)
+    @NotNull
+    @Column(name = "participation_requests_created")
     private LocalDateTime created;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "participation_requests_event_id", nullable = false)
+    @JoinColumn(name = "participation_requests_event_id")
     private Event event;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "participation_requests_requester_id", nullable = false)
+    @JoinColumn(name = "participation_requests_requester_id")
     private User requester;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "participation_requests_status", nullable = false)
+    @Column(name = "participation_requests_status")
     private StateRequest status;
 
 }

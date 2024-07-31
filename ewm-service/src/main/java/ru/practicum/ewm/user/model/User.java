@@ -1,6 +1,7 @@
 package ru.practicum.ewm.user.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,10 +19,12 @@ public class User {
     @Column(name = "users_id")
     private Long id;
 
-    @Column(name = "users_email", nullable = false, unique = true)
+    @NotNull
+    @Column(name = "users_email", unique = true)
     private String email;
 
-    @Column(name = "users_name", nullable = false)
+    @NotNull
+    @Column(name = "users_name")
     private String name;
 
 }

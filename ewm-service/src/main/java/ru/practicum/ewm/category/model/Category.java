@@ -1,6 +1,7 @@
 package ru.practicum.ewm.category.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,8 @@ public class Category {
     @Column(name = "categories_id")
     private Long id;
 
-    @Column(name = "categories_name", nullable = false)
+    @NotNull
+    @Column(name = "categories_name")
     private String name;
 
 }

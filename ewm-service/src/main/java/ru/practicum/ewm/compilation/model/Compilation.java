@@ -4,6 +4,7 @@ import ru.practicum.ewm.event.model.Event;
 
 import java.util.Set;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,10 +29,12 @@ public class Compilation {
             inverseJoinColumns = @JoinColumn(name = "event_id"))
     private Set<Event> events;
 
-    @Column(name = "compilations_pinned", nullable = false)
+    @NotNull
+    @Column(name = "compilations_pinned")
     private Boolean pinned;
 
-    @Column(name = "compilations_title", nullable = false)
+    @NotNull
+    @Column(name = "compilations_title")
     private String title;
 
 }
