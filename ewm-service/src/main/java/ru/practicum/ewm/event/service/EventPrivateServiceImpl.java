@@ -163,7 +163,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
         Optional.ofNullable(updateEventUserRequest.getTitle()).ifPresent(event::setTitle);
 
         try {
-            return EventMapper.INSTANCE.toEventFullDto(eventRepository.saveAndFlush(event));
+            return EventMapper.INSTANCE.toEventFullDto(event);
         } catch (DataIntegrityViolationException e) {
             throw new NotSaveException("Событие с id = " + eventId + ", userId = " + userId + ", " +
                     "не было обновлено: " + updateEventUserRequest);
