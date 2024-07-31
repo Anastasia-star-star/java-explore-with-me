@@ -25,13 +25,11 @@ public class UserAdminController {
     private final UserAdminService adminService;
 
     @GetMapping
-    public ResponseEntity<List<UserDto>> getAllUsers(
-            @RequestParam(required = false) List<Long> ids,
+    public ResponseEntity<List<UserDto>> getAllUsers(@RequestParam(required = false) List<Long> ids,
             @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
             @Positive @RequestParam(name = "size", defaultValue = "10") Integer size) {
-        List<UserDto> userDtos = adminService.getAllUsers(ids, from, size);
-        log.info("Getting list of users by ids = {}, from = {}, size = {}.", ids, from, size);
-        return ResponseEntity.ok().body(userDtos);
+        log.info("Getting list of users by ids = {}", ids);
+        return ResponseEntity.ok().body(adminService.getAllUsers(ids, from, size));
     }
 
     @PostMapping
