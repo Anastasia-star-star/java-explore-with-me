@@ -78,9 +78,7 @@ public class EventAdminServiceImpl implements EventAdminService {
         }
         if (updateEventAdminRequest.getEventDate() != null &&
                 LocalDateTime.now().plusHours(1).isAfter(updateEventAdminRequest.getEventDate())) {
-            throw new BadRequestException(String.format("Дата начала изменяемого события должна быть не ранее, " +
-                            "чем за час от даты публикации, eventId = %s, updateEventAdminRequest: %s.",
-                    eventId, updateEventAdminRequest));
+            throw new BadRequestException("Error date");
         }
         if (updateEventAdminRequest.getLocation() != null) {
             Location location = utilService.returnLocation(updateEventAdminRequest.getLocation());
@@ -98,15 +96,11 @@ public class EventAdminServiceImpl implements EventAdminService {
         if (updateEventAdminRequest.getStateAction() != null) {
             if (updateEventAdminRequest.getStateAction().equals(StateActionAdmin.PUBLISH_EVENT) &&
                     !event.getState().equals(StateEvent.PENDING)) {
-                throw new ConflictException(String.format("Событие можно публиковать только, если оно в состоянии " +
-                                "ожидания публикации, eventId = %s, updateEventAdminRequest: %s.",
-                        eventId, updateEventAdminRequest));
+                throw new ConflictException("the event cannot be public");
             }
             if (updateEventAdminRequest.getStateAction().equals(StateActionAdmin.REJECT_EVENT) &&
                     event.getState().equals(StateEvent.PUBLISHED)) {
-                throw new ConflictException(String.format("событие можно отклонить только, если оно еще " +
-                                "не опубликовано, eventId = %s, updateEventAdminRequest: %s.",
-                        eventId, updateEventAdminRequest));
+                throw new ConflictException("the event cannot be rejected");
             }
 
             switch (updateEventAdminRequest.getStateAction()) {
@@ -126,8 +120,7 @@ public class EventAdminServiceImpl implements EventAdminService {
         try {
             return EventMapper.INSTANCE.toEventFullDto(event);
         } catch (DataIntegrityViolationException e) {
-            throw new NotSaveException("Событие с id = " + eventId + ", не было обновлено: " +
-                    updateEventAdminRequest);
+            throw new NotSaveException("Do not update event");
         }
     }
 
