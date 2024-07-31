@@ -1,16 +1,15 @@
 package ru.practicum.ewm.event.dto.update;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import ru.practicum.ewm.event.dto.creating.LocationDto;
 import ru.practicum.ewm.event.model.StateActionAdmin;
 
-import java.time.LocalDateTime;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-
-import lombok.Data;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import java.time.LocalDateTime;
 
 import static constant.Constants.YYYY_MM_DD_HH_MM_SS;
 
@@ -21,7 +20,7 @@ public class UpdateEventAdminRequest {
     @NotNull
     @NotBlank
     private String annotation;
-    
+
     private Long category;
 
     @Length(min = 20, max = 7000, message = "Event description should be between 20 and 7000 characters.")
