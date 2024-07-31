@@ -21,17 +21,16 @@ public class CategoryPublicController {
     private final CategoryPublicService publicService;
 
     @GetMapping
-    public ResponseEntity<List<CategoryDto>> getAllCategories(
+    public List<CategoryDto> getAllCategories(
             @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
             @Positive @RequestParam(name = "size", defaultValue = "10") Integer size) {
         log.info("Getting list of categ from = {}, size = {}.", from, size);
-        return ResponseEntity.ok().body(publicService.getAllCategories(from, size));
+        return publicService.getAllCategories(from, size);
     }
 
     @GetMapping("/{catId}")
-    public ResponseEntity<CategoryDto> getCategoryById(@PathVariable Long catId) {
+    public CategoryDto getCategoryById(@PathVariable Long catId) {
         log.info("Getting category by id = {}", catId);
-        return ResponseEntity.ok(publicService.getCategoryById(catId));
+        return publicService.getCategoryById(catId);
     }
-
 }
