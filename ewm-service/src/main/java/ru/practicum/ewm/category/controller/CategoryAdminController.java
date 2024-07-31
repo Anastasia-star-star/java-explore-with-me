@@ -23,10 +23,11 @@ public class CategoryAdminController {
     private final CategoryAdminService adminService;
 
     @PostMapping
-    public ResponseEntity<CategoryDto> saveCategory(@Valid @RequestBody NewCategoryDto newCategoryDto) {
+    public CategoryDto saveCategory(@Valid @RequestBody NewCategoryDto newCategoryDto) {
         log.info("Adding new category");
-        return ResponseEntity.status(HttpStatus.CREATED).body(adminService.saveCategory(newCategoryDto));
+        return adminService.saveCategory(newCategoryDto);
     }
+
 
     @DeleteMapping("/{catId}")
     public ResponseEntity<Boolean> deleteCategoryById(@PathVariable Long catId) {
