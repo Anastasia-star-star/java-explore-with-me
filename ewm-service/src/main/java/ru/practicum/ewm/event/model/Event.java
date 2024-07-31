@@ -5,6 +5,7 @@ import ru.practicum.ewm.user.model.User;
 
 import java.time.LocalDateTime;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,11 +23,13 @@ public class Event {
     @Column(name = "events_id")
     private Long id;
 
-    @Column(name = "events_annotation", nullable = false)
+    @NotNull
+    @Column(name = "events_annotation")
     private String annotation;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "events_category_id", nullable = false)
+    @JoinColumn(name = "events_category_id")
     private Category category;
 
     @Column(name = "events_confirmed_requests")
@@ -35,24 +38,30 @@ public class Event {
     @Column(name = "events_created_on")
     private LocalDateTime createdOn;
 
-    @Column(name = "events_description", nullable = false)
+    @NotNull
+    @Column(name = "events_description")
     private String description;
 
-    @Column(name = "events_event_date", nullable = false)
+    @NotNull
+    @Column(name = "events_event_date")
     private LocalDateTime eventDate;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "events_initiator_id", nullable = false)
+    @JoinColumn(name = "events_initiator_id")
     private User initiator;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "events_location_id", nullable = false)
+    @JoinColumn(name = "events_location_id")
     private Location location;
 
-    @Column(name = "events_paid", nullable = false)
+    @NotNull
+    @Column(name = "events_paid")
     private Boolean paid;
 
-    @Column(name = "events_participant_limit", nullable = false)
+    @NotNull
+    @Column(name = "events_participant_limit")
     private Integer participantLimit;
 
     @Column(name = "events_published_on")
@@ -61,11 +70,13 @@ public class Event {
     @Column(name = "events_request_moderation")
     private Boolean requestModeration;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "events_state", nullable = false)
+    @Column(name = "events_state")
     private StateEvent state;
 
-    @Column(name = "events_title", nullable = false)
+    @NotNull
+    @Column(name = "events_title")
     private String title;
 
 }
