@@ -49,7 +49,7 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
         category.setName(categoryDto.getName());
 
         try {
-            return CategoryMapper.INSTANCE.toCategoryDto(category);
+            return CategoryMapper.INSTANCE.toCategoryDto(categoryRepository.saveAndFlush(category));
         } catch (DataIntegrityViolationException e) {
             throw new NotSaveException("Category can't be update");
         }
