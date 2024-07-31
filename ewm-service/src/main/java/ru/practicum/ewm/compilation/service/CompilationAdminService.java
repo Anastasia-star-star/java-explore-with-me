@@ -8,7 +8,7 @@ public interface CompilationAdminService {
 
     CompilationDto saveCompilation(NewCompilationDto newCompilationDto);
 
-    void deleteCompilationById(Long compId);
+    Boolean deleteCompilationById(Long compId);
 
     CompilationDto updateCompilation(Long compId, UpdateCompilationRequest updateCompilationRequest);
 

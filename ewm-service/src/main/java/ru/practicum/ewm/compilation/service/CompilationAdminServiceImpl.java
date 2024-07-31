@@ -46,10 +46,11 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
     }
 
     @Override
-    public void deleteCompilationById(Long compId) {
+    public Boolean deleteCompilationById(Long compId) {
         utilService.returnCompilation(compId);
         try {
             compilationRepository.deleteById(compId);
+            return true;
         } catch (DataIntegrityViolationException e) {
             throw new ConflictException("can not delete compilation");
         }
