@@ -2,6 +2,7 @@ package ru.practicum.ewm.model;
 
 import java.time.LocalDateTime;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,16 +20,20 @@ public class Hit {
     @Column(name = "hits_id")
     private Long id;
 
-    @Column(name = "hits_app", nullable = false)
+    @NotNull
+    @Column(name = "hits_app")
     private String app;
 
-    @Column(name = "hits_uri", nullable = false)
+    @NotNull
+    @Column(name = "hits_uri")
     private String uri;
 
-    @Column(name = "hits_ip", nullable = false)
+    @NotNull
+    @Column(name = "hits_ip")
     private String ip;
 
-    @Column(name = "hits_timestamp", nullable = false)
+    @NotNull
+    @Column(name = "hits_timestamp")
     private LocalDateTime timestamp;
 
 }
