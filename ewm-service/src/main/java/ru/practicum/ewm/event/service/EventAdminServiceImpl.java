@@ -73,7 +73,7 @@ public class EventAdminServiceImpl implements EventAdminService {
             Category category = utilService.returnCategory(updateEventAdminRequest.getCategory());
             event.setCategory(category);
         }
-        if (updateEventAdminRequest.getDescription() != null) {
+        if (updateEventAdminRequest.getDescription() != null && !updateEventAdminRequest.getDescription().isBlank()) {
             event.setDescription(updateEventAdminRequest.getDescription());
         }
         if (updateEventAdminRequest.getEventDate() != null &&
