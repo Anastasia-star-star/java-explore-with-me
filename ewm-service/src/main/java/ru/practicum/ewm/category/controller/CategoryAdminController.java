@@ -31,15 +31,16 @@ public class CategoryAdminController {
 
 
     @DeleteMapping("/{catId}")
-    public ResponseEntity<Boolean> deleteCategoryById(@PathVariable Long catId) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public Boolean deleteCategoryById(@PathVariable Long catId) {
         log.info("Deleting category by id = {}", catId);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(adminService.deleteCategoryById(catId));
+        return adminService.deleteCategoryById(catId);
     }
 
     @PatchMapping("/{catId}")
-    public ResponseEntity<CategoryDto> updateCategory(@PathVariable Long catId,
-                                                      @Valid @RequestBody CategoryDto categoryDto) {
+    public CategoryDto updateCategory(@PathVariable Long catId,
+                                      @Valid @RequestBody CategoryDto categoryDto) {
         log.info("Updating category by id {}", catId);
-        return ResponseEntity.ok(adminService.updateCategory(catId, categoryDto));
+        return adminService.updateCategory(catId, categoryDto);
     }
 }
