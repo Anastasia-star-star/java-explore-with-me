@@ -46,7 +46,7 @@ public class UserAdminServiceImpl implements UserAdminService {
                     UserMapper.INSTANCE.toUserFromNewDto(newUserRequest));
             return UserMapper.INSTANCE.toUserDto(user);
         } catch (DataIntegrityViolationException e) {
-            throw new NotSaveException("Пользователь не был создан: " + newUserRequest);
+            throw new NotSaveException("User don't war save");
         }
     }
 

@@ -72,7 +72,7 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
         }
 
         try {
-            return CompilationMapper.INSTANCE.toCompilationDto(compilationRepository.saveAndFlush(compilation));
+            return CompilationMapper.INSTANCE.toCompilationDto(compilation);
         } catch (DataIntegrityViolationException e) {
             throw new NotSaveException("can not update compilation");
         }
