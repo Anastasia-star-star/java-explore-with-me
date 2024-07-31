@@ -2,7 +2,7 @@ package ru.practicum.ewm.category.controller;
 
 import ru.practicum.ewm.category.dto.CategoryDto;
 import ru.practicum.ewm.category.dto.NewCategoryDto;
-import ru.practicum.ewm.category.service.CategAdminService;
+import ru.practicum.ewm.category.service.CategoryAdminService;
 
 import javax.validation.Valid;
 
@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin/categories")
 @RequiredArgsConstructor
 @Slf4j
-public class CategAdminController {
+public class CategoryAdminController {
 
-    private final CategAdminService adminService;
+    private final CategoryAdminService adminService;
 
     @PostMapping
     @Validated

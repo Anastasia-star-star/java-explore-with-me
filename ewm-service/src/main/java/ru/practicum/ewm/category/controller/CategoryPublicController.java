@@ -1,7 +1,7 @@
 package ru.practicum.ewm.category.controller;
 
 import ru.practicum.ewm.category.dto.CategoryDto;
-import ru.practicum.ewm.category.service.CategPublicService;
+import ru.practicum.ewm.category.service.CategoryPublicService;
 
 import java.util.List;
 import javax.validation.constraints.Positive;
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/categories")
 @RequiredArgsConstructor
 @Slf4j
-public class CategPublicController {
+public class CategoryPublicController {
 
-    private final CategPublicService publicService;
+    private final CategoryPublicService publicService;
 
     @GetMapping
     public ResponseEntity<List<CategoryDto>> getAllCategories(
