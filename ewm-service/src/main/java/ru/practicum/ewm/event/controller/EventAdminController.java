@@ -24,6 +24,7 @@ import static constant.Constants.YYYY_MM_DD_HH_MM_SS;
 @RequestMapping("/admin/events")
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 public class EventAdminController {
 
     private final EventAdminService adminService;
@@ -43,7 +44,6 @@ public class EventAdminController {
     }
 
     @PatchMapping("/{eventId}")
-    @Validated
     public ResponseEntity<EventFullDto> updateEventByAdmin(
             @PathVariable Long eventId,
             @Valid @RequestBody UpdateEventAdminRequest updateEventAdminRequest) {

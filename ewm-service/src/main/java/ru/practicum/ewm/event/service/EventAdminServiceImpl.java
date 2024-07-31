@@ -37,8 +37,7 @@ public class EventAdminServiceImpl implements EventAdminService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<EventFullDto> getAllEventsByAdmin(
-            List<Long> users, List<StateEvent> states, List<Long> categories,
+    public List<EventFullDto> getAllEventsByAdmin(List<Long> users, List<StateEvent> states, List<Long> categories,
             LocalDateTime rangeStart, LocalDateTime rangeEnd, Integer from, Integer size) {
         Pageable page = PageRequest.of(from, size, Sort.by(Sort.Direction.ASC, "id"));
 

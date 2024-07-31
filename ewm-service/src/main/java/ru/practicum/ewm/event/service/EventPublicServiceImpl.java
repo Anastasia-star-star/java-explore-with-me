@@ -41,8 +41,8 @@ public class EventPublicServiceImpl implements EventPublicService {
     private final Statistic statistic;
 
     @Override
-    public List<EventShortDto> getAllEvents(
-            String text, List<Long> categories, Boolean paid, LocalDateTime rangeStart, LocalDateTime rangeEnd,
+    public List<EventShortDto> getAllEvents(String text, List<Long> categories, Boolean paid,
+                                            LocalDateTime rangeStart, LocalDateTime rangeEnd,
             Boolean onlyAvailable, SortSearch sort, Integer from, Integer size, HttpServletRequest request) {
         Pageable page = PageRequest.of(from, size, Sort.by(Sort.Direction.ASC, "eventDate"));
 

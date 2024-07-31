@@ -183,8 +183,9 @@ public class EventPrivateServiceImpl implements EventPrivateService {
     }
 
     @Override
-    public EventRequestStatusUpdateResult updateAllRequestsOfEventByUser(
-            Long userId, Long eventId, EventRequestStatusUpdateRequest eventRequestStatusUpdateRequest) {
+    public EventRequestStatusUpdateResult updateAllRequestsOfEventByUser(Long userId, Long eventId,
+                                                                         EventRequestStatusUpdateRequest
+                                                                                 eventRequestStatusUpdateRequest) {
         utilService.returnUser(userId);
         Event event = utilService.returnEvent(eventId);
         utilService.checkEventInitiator(event, userId);

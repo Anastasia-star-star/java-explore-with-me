@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface EventPublicService {
 
-    List<EventShortDto> getAllEvents(
-            String text, List<Long> categories, Boolean paid, LocalDateTime rangeStart, LocalDateTime rangeEnd,
-            Boolean onlyAvailable, SortSearch sort, Integer from, Integer size, HttpServletRequest request);
+    List<EventShortDto> getAllEvents(String text, List<Long> categories, Boolean paid, LocalDateTime rangeStart,
+                                     LocalDateTime rangeEnd, Boolean onlyAvailable, SortSearch sort, Integer from,
+                                     Integer size, HttpServletRequest request);
 
     EventFullDto getPublicEventById(Long eventId, HttpServletRequest request);
 
