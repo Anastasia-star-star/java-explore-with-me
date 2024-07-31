@@ -165,8 +165,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
         try {
             return EventMapper.INSTANCE.toEventFullDto(event);
         } catch (DataIntegrityViolationException e) {
-            throw new NotSaveException("Событие с id = " + eventId + ", userId = " + userId + ", " +
-                    "не было обновлено: " + updateEventUserRequest);
+            throw new NotSaveException("do not save event");
         }
     }
 

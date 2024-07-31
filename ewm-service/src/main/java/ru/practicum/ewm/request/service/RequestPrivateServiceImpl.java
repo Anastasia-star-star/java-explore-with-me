@@ -94,8 +94,7 @@ public class RequestPrivateServiceImpl implements RequestPrivateService {
         }
         participationRequest.setStatus(StateRequest.CANCELED);
 
-        return ParticipationRequestMapper.INSTANCE.toParticipationRequestDto(
-                requestRepository.saveAndFlush(participationRequest));
+        return ParticipationRequestMapper.INSTANCE.toParticipationRequestDto(participationRequest);
     }
 
 }
