@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class CompPublicServiceImpl implements CompPublicService {
+public class CompilationPublicServiceImpl implements CompilationPublicService {
 
     private final CompilationRepository compilationRepository;
     private final UtilService utilService;

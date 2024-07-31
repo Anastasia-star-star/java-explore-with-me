@@ -1,7 +1,7 @@
 package ru.practicum.ewm.compilation.controller;
 
 import ru.practicum.ewm.compilation.dto.CompilationDto;
-import ru.practicum.ewm.compilation.service.CompPublicService;
+import ru.practicum.ewm.compilation.service.CompilationPublicService;
 
 import java.util.List;
 import javax.validation.constraints.Positive;
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/compilations")
 @RequiredArgsConstructor
 @Slf4j
-public class CompPublicController {
+public class CompilationPublicController {
 
-    private final CompPublicService publicService;
+    private final CompilationPublicService publicService;
 
     @GetMapping
     public ResponseEntity<List<CompilationDto>> getAllCompilations(

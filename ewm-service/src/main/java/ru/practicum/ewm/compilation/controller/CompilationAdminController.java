@@ -3,7 +3,7 @@ package ru.practicum.ewm.compilation.controller;
 import ru.practicum.ewm.compilation.dto.CompilationDto;
 import ru.practicum.ewm.compilation.dto.NewCompilationDto;
 import ru.practicum.ewm.compilation.dto.UpdateCompilationRequest;
-import ru.practicum.ewm.compilation.service.CompAdminService;
+import ru.practicum.ewm.compilation.service.CompilationAdminService;
 
 import javax.validation.Valid;
 
@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin/compilations")
 @RequiredArgsConstructor
 @Slf4j
-public class CompAdminController {
+public class CompilationAdminController {
 
-    private final CompAdminService adminService;
+    private final CompilationAdminService adminService;
 
     @PostMapping
     @Validated

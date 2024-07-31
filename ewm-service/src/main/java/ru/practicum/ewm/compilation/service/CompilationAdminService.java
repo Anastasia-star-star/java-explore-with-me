@@ -4,7 +4,7 @@ import ru.practicum.ewm.compilation.dto.CompilationDto;
 import ru.practicum.ewm.compilation.dto.NewCompilationDto;
 import ru.practicum.ewm.compilation.dto.UpdateCompilationRequest;
 
-public interface CompAdminService {
+public interface CompilationAdminService {
 
     CompilationDto saveCompilation(NewCompilationDto newCompilationDto);
 

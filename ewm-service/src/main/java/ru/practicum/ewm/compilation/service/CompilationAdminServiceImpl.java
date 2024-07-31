@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class CompAdminServiceImpl implements CompAdminService {
+public class CompilationAdminServiceImpl implements CompilationAdminService {
 
     private final CompilationRepository compilationRepository;
     private final EventRepository eventRepository;
