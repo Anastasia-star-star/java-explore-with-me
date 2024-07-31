@@ -13,7 +13,7 @@ public class NewCompilationDto {
 
     private Boolean pinned = false;
 
-    @NotBlank(message = "Ошибка! Заголовок подборки не может быть пустым.")
+    @NotBlank(message = "title can not be blank")
     @Length(min = 1, max = 50, message = "Compilation title must be between 1 and 50 characters.")
     private String title;
 

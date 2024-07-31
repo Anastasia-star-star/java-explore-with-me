@@ -14,7 +14,6 @@ import javax.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static constant.Constants.YYYY_MM_DD_HH_MM_SS;
@@ -28,7 +27,7 @@ public class EventPublicController {
     private final EventPublicService publicService;
 
     @GetMapping
-    public ResponseEntity<List<EventShortDto>> getAllEvents(
+    public List<EventShortDto> getAllEvents(
             @RequestParam(defaultValue = "") String text,
             @RequestParam(required = false) List<Long> categories,
             @RequestParam(required = false) Boolean paid,
@@ -41,14 +40,14 @@ public class EventPublicController {
             HttpServletRequest request) {
 
         log.info("get all events");
-        return ResponseEntity.ok().body(publicService.getAllEvents(
-                text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size, request));
+        return publicService.getAllEvents(
+                text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size, request);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EventFullDto> getPublicEventById(@PathVariable Long id, HttpServletRequest request) {
+    public EventFullDto getPublicEventById(@PathVariable Long id, HttpServletRequest request) {
         log.info("getEventBy id = {}", id);
-        return ResponseEntity.ok(publicService.getPublicEventById(id, request));
+        return publicService.getPublicEventById(id, request);
     }
 
 }
