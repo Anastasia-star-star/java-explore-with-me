@@ -41,9 +41,9 @@ public class UserAdminController {
 
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUserById(@PathVariable Long userId) {
+    public Boolean deleteUserById(@PathVariable Long userId) {
         log.info("Deleting user by id = {}", userId);
-        adminService.deleteUserById(userId);
+        return adminService.deleteUserById(userId);
     }
 
 }

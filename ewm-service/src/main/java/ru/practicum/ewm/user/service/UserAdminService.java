@@ -11,6 +11,6 @@ public interface UserAdminService {
 
     UserDto saveUser(NewUserRequest newUserRequest);
 
-    void deleteUserById(Long userId);
+    Boolean deleteUserById(Long userId);
 
 }

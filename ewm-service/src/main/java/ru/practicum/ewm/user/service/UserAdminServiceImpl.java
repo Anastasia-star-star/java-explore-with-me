@@ -51,9 +51,10 @@ public class UserAdminServiceImpl implements UserAdminService {
     }
 
     @Override
-    public void deleteUserById(Long userId) {
+    public Boolean deleteUserById(Long userId) {
         utilService.returnUser(userId);
         userRepository.deleteById(userId);
+        return true;
     }
 
 }
