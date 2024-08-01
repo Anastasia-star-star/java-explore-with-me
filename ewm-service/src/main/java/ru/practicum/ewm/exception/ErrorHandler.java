@@ -19,7 +19,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiError handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+    public ApiException handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         List<String> stList = Arrays.stream(e.getStackTrace()).map(x -> x.toString()).collect(Collectors.toList());
         final List<ErrorResponse> errorResponses = e.getBindingResult().getFieldErrors().stream()
                 .map(error -> {
@@ -33,7 +33,7 @@ public class ErrorHandler {
             stringBuilderErrors.append(errorResponse.getError());
         }
 
-        ApiError apiError = new ApiError();
+        ApiException apiError = new ApiException();
         apiError.setStatus(HttpStatus.BAD_REQUEST);
         apiError.setReason("Incorrectly made request.");
         apiError.setMessage(stringBuilderErrors.toString());
@@ -46,8 +46,8 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ApiError handleNotSave(NotSaveException e) {
-        ApiError apiError = new ApiError();
+    public ApiException handleNotSave(NotSaveException e) {
+        ApiException apiError = new ApiException();
         apiError.setStatus(HttpStatus.CONFLICT);
         apiError.setReason("Integrity constraint has been violated.");
         apiError.setMessage(e.getMessage());
@@ -60,8 +60,8 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ApiError handleNotSave(NotFoundException e) {
-        ApiError apiError = new ApiError();
+    public ApiException handleNotSave(NotFoundException e) {
+        ApiException apiError = new ApiException();
         apiError.setStatus(HttpStatus.NOT_FOUND);
         apiError.setReason("The required object was not found.");
         apiError.setMessage(e.getMessage());
@@ -74,8 +74,8 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ApiError handleNotSave(ConflictException e) {
-        ApiError apiError = new ApiError();
+    public ApiException handleNotSave(ConflictException e) {
+        ApiException apiError = new ApiException();
         apiError.setStatus(HttpStatus.CONFLICT);
         apiError.setReason("For the requested operation the conditions are not met.");
         apiError.setMessage(e.getMessage());
@@ -88,8 +88,8 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiError handleNotSave(BadRequestException e) {
-        ApiError apiError = new ApiError();
+    public ApiException handleNotSave(BadRequestException e) {
+        ApiException apiError = new ApiException();
         apiError.setStatus(HttpStatus.BAD_REQUEST);
         apiError.setReason("Incorrectly made request.");
         apiError.setMessage(e.getMessage());
@@ -102,8 +102,8 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiError handleMissingRequestParameter(MissingServletRequestParameterException e) {
-        ApiError apiError = new ApiError();
+    public ApiException handleMissingRequestParameter(MissingServletRequestParameterException e) {
+        ApiException apiError = new ApiException();
         apiError.setStatus(HttpStatus.BAD_REQUEST);
         apiError.setReason("Required request parameter is not present.");
         apiError.setMessage(e.getMessage());
@@ -116,8 +116,8 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ApiError handleThrowable(Throwable e) {
-        ApiError apiError = new ApiError();
+    public ApiException handleThrowable(Throwable e) {
+        ApiException apiError = new ApiException();
         apiError.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
         apiError.setReason("Произошла непредвиденная ошибка.");
         apiError.setMessage(e.getMessage());

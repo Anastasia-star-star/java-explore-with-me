@@ -11,5 +11,5 @@ import lombok.ToString;
 @ToString
 public class ValidationErrorResponse {
 
-    private final List<ApiError> errorResponses;
+    private final List<ApiException> errorResponses;
 }

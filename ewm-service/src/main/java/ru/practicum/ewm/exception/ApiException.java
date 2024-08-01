@@ -14,7 +14,7 @@ import static constant.Constants.YYYY_MM_DD_HH_MM_SS;
 @Getter
 @Setter
 @ToString
-public class ApiError {
+public class ApiException {
 
     private HttpStatus status;
 
