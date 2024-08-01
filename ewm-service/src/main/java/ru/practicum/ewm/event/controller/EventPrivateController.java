@@ -38,10 +38,9 @@ public class EventPrivateController {
     }
 
     @PostMapping
-    @Validated
     @ResponseStatus(HttpStatus.CREATED)
     public EventFullDto saveEvent(@PathVariable Long userId,
-                                                  @Valid @RequestBody NewEventDto newEventDto) {
+                                  @Valid @RequestBody NewEventDto newEventDto) {
         log.info("save event");
         return privateService.saveEvent(userId, newEventDto);
     }
@@ -61,14 +60,14 @@ public class EventPrivateController {
 
     @GetMapping("/{eventId}/requests")
     public List<ParticipationRequestDto> getAllRequestsOfEventByUser(@PathVariable Long userId,
-                                                                                     @PathVariable Long eventId) {
+                                                                     @PathVariable Long eventId) {
         log.info("get all requests of Event");
         return privateService.getAllRequestsOfEventByUser(userId, eventId);
     }
 
     @PatchMapping("/{eventId}/requests")
     public EventRequestStatusUpdateResult updateAllRequestsOfEventByUser(@PathVariable Long userId,
-                                                                                         @PathVariable Long eventId,
+                                                                         @PathVariable Long eventId,
             @Valid @RequestBody EventRequestStatusUpdateRequest eventRequestStatusUpdateRequest) {
         log.info("update all requests of event");
         return privateService.updateAllRequestsOfEventByUser(userId,

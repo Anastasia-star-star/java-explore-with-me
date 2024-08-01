@@ -5,6 +5,7 @@ import ru.practicum.ewm.user.model.User;
 
 import java.time.LocalDateTime;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
@@ -77,6 +78,7 @@ public class Event {
 
     @NotNull
     @Column(name = "events_title")
+    @NotBlank
     private String title;
 
 }
