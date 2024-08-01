@@ -12,6 +12,8 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import ru.practicum.ewm.exception.model.ApiException;
+import ru.practicum.ewm.exception.response.ErrorResponse;
 
 @RestControllerAdvice
 @Slf4j
