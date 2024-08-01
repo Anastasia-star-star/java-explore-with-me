@@ -4,6 +4,7 @@ import ru.practicum.ewm.event.model.Event;
 
 import java.util.Set;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
@@ -35,6 +36,7 @@ public class Compilation {
 
     @NotNull
     @Column(name = "compilations_title")
+    @NotBlank
     private String title;
 
 }
