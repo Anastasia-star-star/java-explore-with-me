@@ -1,6 +1,5 @@
 package ru.practicum.ewm.event.repository;
 
-import org.springframework.data.domain.PageRequest;
 import ru.practicum.ewm.event.model.Event;
 import ru.practicum.ewm.event.model.StateEvent;
 
