@@ -29,7 +29,6 @@ public class EndpointHit {
     private String ip;
 
     @NotNull(message = "Date and time must not be null.")
-
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = YYYY_MM_DD_HH_MM_SS)
     private LocalDateTime timestamp;
 
