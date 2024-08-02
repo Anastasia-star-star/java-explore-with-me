@@ -4,7 +4,7 @@ import ru.practicum.ewm.location.dto.LocationDto;
 
 import java.util.List;
 
-public interface LocAdminService {
+public interface LocationAdminService {
 
     LocationDto saveLocation(LocationDto locationDto);
 

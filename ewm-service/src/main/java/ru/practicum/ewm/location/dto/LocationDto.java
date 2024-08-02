@@ -10,14 +10,14 @@ public class LocationDto {
 
     private Long id;
 
-    @NotNull(message = "Ошибка! Широта не может быть пустой.")
+    @NotNull
     private Float lat;
 
-    @NotNull(message = "Ошибка! Долгота не может быть пустой.")
+    @NotNull
     private Float lon;
 
-    @NotNull(message = "Ошибка! Радиус не может быть пустой.")
-    @Positive(message = "Ошибка! Радиус должен быть > 0.")
+    @NotNull
+    @Positive
     private Float radius = 0f;
 
 }

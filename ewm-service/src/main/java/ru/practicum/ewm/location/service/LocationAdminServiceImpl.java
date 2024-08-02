@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class LocAdminServiceImpl implements LocAdminService {
+public class LocationAdminServiceImpl implements LocationAdminService {
 
     private final LocationRepository locationRepository;
     private final UtilService utilService;
