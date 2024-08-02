@@ -6,6 +6,7 @@ import javax.validation.constraints.*;
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.validator.constraints.Length;
+import ru.practicum.ewm.location.dto.LocationDto;
 
 import static constant.Constants.YYYY_MM_DD_HH_MM_SS;
 

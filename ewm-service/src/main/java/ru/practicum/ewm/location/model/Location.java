@@ -1,7 +1,6 @@
-package ru.practicum.ewm.event.model;
+package ru.practicum.ewm.location.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 import lombok.*;
 
@@ -18,12 +17,13 @@ public class Location {
     @Column(name = "locations_id")
     private Long id;
 
-    @NotNull
-    @Column(name = "locations_lat")
+    @Column(name = "locations_lat", nullable = false)
     private Float lat;
 
-    @NotNull
-    @Column(name = "locations_lon")
+    @Column(name = "locations_lon", nullable = false)
     private Float lon;
+
+    @Column(name = "locations_radius", nullable = false)
+    private Float radius;
 
 }

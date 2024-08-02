@@ -1,17 +1,16 @@
 package ru.practicum.ewm.util;
 
-import dto.ViewStats;
 import ru.practicum.ewm.category.model.Category;
 import ru.practicum.ewm.category.repository.CategoryRepository;
 import ru.practicum.ewm.compilation.model.Compilation;
 import ru.practicum.ewm.compilation.repository.CompilationRepository;
-
-import ru.practicum.ewm.event.dto.creating.LocationDto;
-import ru.practicum.ewm.event.mapper.LocationMapper;
+import dto.ViewStats;
+import ru.practicum.ewm.location.dto.LocationDto;
+import ru.practicum.ewm.location.mapper.LocationMapper;
 import ru.practicum.ewm.event.model.Event;
-import ru.practicum.ewm.event.model.Location;
+import ru.practicum.ewm.location.model.Location;
 import ru.practicum.ewm.event.repository.EventRepository;
-import ru.practicum.ewm.event.repository.LocationRepository;
+import ru.practicum.ewm.location.repository.LocationRepository;
 import ru.practicum.ewm.exception.NotFoundException;
 import ru.practicum.ewm.request.model.ParticipationRequest;
 import ru.practicum.ewm.request.repository.RequestRepository;
@@ -45,7 +44,7 @@ public class UtilService {
 
     public User returnUser(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("user not found"));
+                .orElseThrow(() -> new NotFoundException("Пользователь с id = " + userId + " не найден."));
     }
 
     public Category returnCategory(Long catId) {
@@ -72,8 +71,16 @@ public class UtilService {
 
     @Transactional
     public Location returnLocation(LocationDto locationDto) {
-        Location location = locationRepository.findByLatAndLon(locationDto.getLat(), locationDto.getLon());
-        return location != null ? location : locationRepository.save(LocationMapper.INSTANCE.toLocation(locationDto));
+        locationDto.setRadius(0f);
+        Location location = locationRepository
+                .findByLatAndLonAndRadius(locationDto.getLat(), locationDto.getLon(), 0f);
+        return location != null ? location
+                : locationRepository.save(LocationMapper.INSTANCE.toLocation(locationDto));
+    }
+
+    public Location returnLocationById(Long locId) {
+        return locationRepository.findById(locId).orElseThrow(() ->
+                new NotFoundException("Локация с идентификатором " + locId + " не найдена."));
     }
 
     public Compilation returnCompilation(Long compId) {
@@ -95,5 +102,4 @@ public class UtilService {
         }
         return views;
     }
-
 }

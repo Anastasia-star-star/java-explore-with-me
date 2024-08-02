@@ -1,5 +1,6 @@
 package ru.practicum.ewm.event.repository;
 
+import org.springframework.data.domain.PageRequest;
 import ru.practicum.ewm.event.model.Event;
 import ru.practicum.ewm.event.model.StateEvent;
 
@@ -46,4 +47,17 @@ public interface EventRepository extends JpaRepository<Event, Long> {
                              @Param("rangeEnd") LocalDateTime rangeEnd,
                              @Param("onlyAvailable") Boolean onlyAvailable,
                              Pageable page);
+
+    @Query("select e " +
+            "from Event e " +
+            "where (e.state = 'PUBLISHED') " +
+            "and (function('distance', e.location.lat, e.location.lon, :lat, :lon) <= :radius) " +
+            "and (e.eventDate BETWEEN :rangeStart AND :rangeEnd) ")
+    List<Event> getAllEventsByLocation(
+            @Param("lat") Float lat,
+            @Param("lon") Float lon,
+            @Param("radius") Float radius,
+            @Param("rangeStart") LocalDateTime rangeStart,
+            @Param("rangeEnd") LocalDateTime rangeEnd,
+            Pageable page);
 }

@@ -9,6 +9,7 @@ import ru.practicum.ewm.event.repository.EventRepository;
 import ru.practicum.ewm.exception.BadRequestException;
 import ru.practicum.ewm.exception.ConflictException;
 import ru.practicum.ewm.exception.NotSaveException;
+import ru.practicum.ewm.location.model.Location;
 import ru.practicum.ewm.request.model.StateRequest;
 import ru.practicum.ewm.request.repository.RequestRepository;
 import ru.practicum.ewm.util.UtilService;
@@ -38,7 +39,7 @@ public class EventAdminServiceImpl implements EventAdminService {
     @Transactional(readOnly = true)
     @Override
     public List<EventFullDto> getAllEventsByAdmin(List<Long> users, List<StateEvent> states, List<Long> categories,
-            LocalDateTime rangeStart, LocalDateTime rangeEnd, Integer from, Integer size) {
+                                                  LocalDateTime rangeStart, LocalDateTime rangeEnd, Integer from, Integer size) {
         Pageable page = PageRequest.of(from, size, Sort.by(Sort.Direction.ASC, "id"));
 
         if (rangeStart == null) {

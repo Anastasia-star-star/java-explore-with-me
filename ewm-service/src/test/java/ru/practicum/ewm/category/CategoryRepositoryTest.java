@@ -1,10 +1,14 @@
 package ru.practicum.ewm.category;
 
+import ru.practicum.ewm.BaseDataJpaTest;
+import ru.practicum.ewm.category.repository.CategoryRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@DataJpaTest
-class CategoryRepositoryTest {
+class CategoryRepositoryTest extends BaseDataJpaTest {
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Test
     void deleteByIdWithReturnedLines() {
