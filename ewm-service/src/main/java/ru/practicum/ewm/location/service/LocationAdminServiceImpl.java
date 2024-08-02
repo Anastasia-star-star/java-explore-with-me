@@ -33,7 +33,7 @@ public class LocationAdminServiceImpl implements LocationAdminService {
                     LocationMapper.INSTANCE.toLocation(locationDto));
             return LocationMapper.INSTANCE.toLocationDto(location);
         } catch (DataIntegrityViolationException e) {
-            throw new NotSaveException("Локация не была создана: " + locationDto);
+            throw new NotSaveException("location can not be save");
         }
     }
 
@@ -44,8 +44,7 @@ public class LocationAdminServiceImpl implements LocationAdminService {
         try {
             return locationRepository.deleteByIdWithReturnedLines(locId) > 0;
         } catch (DataIntegrityViolationException e) {
-            throw new ConflictException("Локация с ид = " + locId + " не может быть удалена, " +
-                    "существуют события, связанные с локацией.");
+            throw new ConflictException("location can not be deleted");
         }
     }
 
@@ -66,7 +65,7 @@ public class LocationAdminServiceImpl implements LocationAdminService {
         try {
             return LocationMapper.INSTANCE.toLocationDto(locationRepository.saveAndFlush(location));
         } catch (DataIntegrityViolationException e) {
-            throw new NotSaveException("Локация с id = " + locId + " не была обновлена: " + locationDto);
+            throw new NotSaveException("location can not be deleted");
         }
     }
 
