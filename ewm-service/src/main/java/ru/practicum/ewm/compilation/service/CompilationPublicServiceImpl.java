@@ -24,14 +24,14 @@ public class CompilationPublicServiceImpl implements CompilationPublicService {
 
     @Override
     public List<CompilationDto> getAllCompilations(Boolean pinned, Integer from, Integer size) {
-        Pageable page = PageRequest.of(from, size, Sort.by(Sort.Direction.ASC, "id"));
+        Pageable pageable = PageRequest.of(from / size, size, Sort.by(Sort.Direction.ASC, "id"));
 
         if (pinned == null) {
             return CompilationMapper.INSTANCE.convertCompilationListToCompilationDTOList(
-                    compilationRepository.findAll(page).getContent());
+                    compilationRepository.findAll(pageable).getContent());
         } else {
             return CompilationMapper.INSTANCE.convertCompilationListToCompilationDTOList(
-                    compilationRepository.findAllByPinned(pinned, page));
+                    compilationRepository.findAllByPinned(pinned, pageable));
         }
     }
 
