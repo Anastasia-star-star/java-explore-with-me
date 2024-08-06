@@ -19,13 +19,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class LocationAdminServiceImpl implements LocationAdminService {
 
     private final LocationRepository locationRepository;
     private final UtilService utilService;
 
+    @Transactional
     @Override
     public LocationDto saveLocation(LocationDto locationDto) {
         try {
@@ -37,6 +38,7 @@ public class LocationAdminServiceImpl implements LocationAdminService {
         }
     }
 
+    @Transactional
     @Override
     public Boolean deleteLocationById(Long locId) {
         utilService.returnLocationById(locId);
@@ -48,6 +50,7 @@ public class LocationAdminServiceImpl implements LocationAdminService {
         }
     }
 
+    @Transactional
     @Override
     public LocationDto updateLocation(Long locId, LocationDto locationDto) {
         Location location = utilService.returnLocationById(locId);
@@ -69,7 +72,6 @@ public class LocationAdminServiceImpl implements LocationAdminService {
         }
     }
 
-    @Transactional(readOnly = true)
     @Override
     public List<LocationDto> getAllLocations(Integer from, Integer size) {
         Pageable page = PageRequest.of(from, size, Sort.by(Sort.Direction.ASC, "id"));
@@ -77,7 +79,6 @@ public class LocationAdminServiceImpl implements LocationAdminService {
                 locationRepository.findByRadiusIsGreaterThan(0f, page));
     }
 
-    @Transactional(readOnly = true)
     @Override
     public LocationDto getLocationById(Long locId) {
         return LocationMapper.INSTANCE.toLocationDto(utilService.returnLocationById(locId));
