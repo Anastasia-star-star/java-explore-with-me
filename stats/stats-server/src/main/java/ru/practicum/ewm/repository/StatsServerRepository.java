@@ -11,37 +11,33 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface StatsServerRepository extends JpaRepository<Hit, Long> {
 
-    @Query("select new dto.ViewStats(h.app, h.uri, COUNT(h.ip) as count_ip) " +
+    @Query("select new dto.ViewStats(h.app, h.uri, COUNT(h.ip)) " +
             "from Hit as h " +
-            "where h.timestamp >= ?1  " +
-            "and h.timestamp <= ?2 " +
+            "where h.timestamp between ?1 and ?2 " +
             "and h.uri in ?3 " +
             "group by h.app, h.uri " +
-            "order by count_ip desc ")
+            "order by COUNT(h.ip) desc")
     List<ViewStats> getAllStatsWithUris(LocalDateTime start, LocalDateTime end, List<String> uris);
 
-    @Query("select new dto.ViewStats(h.app, h.uri, COUNT(DISTINCT(h.ip)) as count_ip) " +
+    @Query("select new dto.ViewStats(h.app, h.uri, COUNT(DISTINCT h.ip)) " +
             "from Hit as h " +
-            "where h.timestamp >= ?1  " +
-            "and h.timestamp <= ?2 " +
+            "where h.timestamp between ?1 and ?2 " +
             "group by h.app, h.uri " +
-            "order by count_ip desc ")
+            "order by COUNT(DISTINCT h.ip) desc")
     List<ViewStats> getAllUniqueStats(LocalDateTime start, LocalDateTime end);
 
-    @Query("select new dto.ViewStats(h.app, h.uri, COUNT(DISTINCT(h.ip)) as count_ip) " +
+    @Query("select new dto.ViewStats(h.app, h.uri, COUNT(DISTINCT h.ip)) " +
             "from Hit as h " +
-            "where h.timestamp >= ?1  " +
-            "and h.timestamp <= ?2 " +
+            "where h.timestamp between ?1 and ?2 " +
             "and h.uri in ?3 " +
             "group by h.app, h.uri " +
-            "order by count_ip desc ")
+            "order by COUNT(DISTINCT h.ip) desc")
     List<ViewStats> getAllUniqueStatsWithUris(LocalDateTime start, LocalDateTime end, List<String> uris);
 
-    @Query("select new dto.ViewStats(h.app, h.uri, COUNT(h.ip) as count_ip) " +
+    @Query("select new dto.ViewStats(h.app, h.uri, COUNT(h.ip)) " +
             "from Hit as h " +
-            "where h.timestamp >= ?1  " +
-            "and h.timestamp <= ?2 " +
+            "where h.timestamp between ?1 and ?2 " +
             "group by h.app, h.uri " +
-            "order by count_ip desc ")
+            "order by COUNT(h.ip) desc")
     List<ViewStats> getAllStats(LocalDateTime start, LocalDateTime end);
 }
