@@ -15,12 +15,12 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     List<Event> findByInitiatorId(Long userId, Pageable page);
 
-    @Query("select e " +
-            "from Event e " +
-            "where ((:users is null or e.initiator.id IN :users) " +
-            "and (:states is null or e.state IN :states) " +
-            "and (:categories is null or e.category.id IN :categories) " +
-            "and (e.eventDate BETWEEN :rangeStart and :rangeEnd)) ")
+    @Query("SELECT e " +
+            "FROM Event e " +
+            "WHERE ((:users is null or e.initiator.id IN :users) " +
+            "AND (:states is null or e.state IN :states) " +
+            "AND (:categories is null or e.category.id IN :categories) " +
+            "AND (e.eventDate BETWEEN :rangeStart and :rangeEnd)) ")
     List<Event> getAllEventsByAdmin(
             @Param("users") List<Long> users,
             @Param("states") List<StateEvent> states,
@@ -29,15 +29,15 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             @Param("rangeEnd") LocalDateTime rangeEnd,
             Pageable page);
 
-    @Query("select e " +
-            "from Event e " +
-            "where (e.state = 'PUBLISHED') " +
-            "and (LOWER(e.annotation) LIKE LOWER(CONCAT('%', :text, '%')) " +
+    @Query("SELECT e " +
+            "FROM Event e " +
+            "WHERE (e.state = 'PUBLISHED') " +
+            "AND (LOWER(e.annotation) LIKE LOWER(CONCAT('%', :text, '%')) " +
             "OR LOWER(e.description) LIKE LOWER(CONCAT('%', :text, '%'))) " +
-            "and ((:categories) IS NULL OR e.category.id IN :categories) " +
-            "and ((:paid) IS NULL OR e.paid = :paid) " +
-            "and (e.eventDate BETWEEN :rangeStart AND :rangeEnd) " +
-            "and ((:onlyAvailable IS TRUE AND (e.participantLimit > e.confirmedRequests OR e.participantLimit = 0)) " +
+            "AND ((:categories) IS NULL OR e.category.id IN :categories) " +
+            "AND ((:paid) IS NULL OR e.paid = :paid) " +
+            "AND (e.eventDate BETWEEN :rangeStart AND :rangeEnd) " +
+            "AND ((:onlyAvailable IS TRUE AND (e.participantLimit > e.confirmedRequests OR e.participantLimit = 0)) " +
             "    OR :onlyAvailable IS FALSE) ")
     List<Event> getAllEvents(@Param("text") String text,
                              @Param("categories") List<Long> categories,
@@ -47,13 +47,11 @@ public interface EventRepository extends JpaRepository<Event, Long> {
                              @Param("onlyAvailable") Boolean onlyAvailable,
                              Pageable page);
 
-    @Query("select e " +
-            "from Event e " +
-            "where (e.state = 'PUBLISHED') " +
-            "and (function('distance', e.location.lat, e.location.lon, :lat, :lon) <= :radius) " +
-            "and (e.eventDate BETWEEN :rangeStart AND :rangeEnd) ")
-    List<Event> getAllEventsByLocation(
-            @Param("lat") Float lat,
+    @Query("SELECT e FROM Event e " +
+            "WHERE (e.state = 'PUBLISHED') " +
+            "AND (function('distance', e.location.lat, e.location.lon, :lat, :lon) <= :radius) " +
+            "AND (e.eventDate BETWEEN :rangeStart AND :rangeEnd) ")
+    List<Event> getAllEventsByLocation(@Param("lat") Float lat,
             @Param("lon") Float lon,
             @Param("radius") Float radius,
             @Param("rangeStart") LocalDateTime rangeStart,
