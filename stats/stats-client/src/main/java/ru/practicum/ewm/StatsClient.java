@@ -23,11 +23,10 @@ import ru.practicum.ewm.exceptions.ClientException;
 @Component
 public class StatsClient {
 
-    private final HttpClient client = HttpClient.newBuilder()
-            .version(HttpClient.Version.HTTP_1_1)
-            .build();
+    private final HttpClient client = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).build();
 
     private final String serverUrl;
+
     private final Gson gson = getGson();
 
     public StatsClient(@Value("${stats-server.url}") String serverUrl) {
@@ -46,7 +45,7 @@ public class StatsClient {
             final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             return gson.fromJson(response.body(), EndpointHit.class);
         } catch (NullPointerException | IOException | InterruptedException e) {
-            throw new ClientException("Ошибка в клиенте статистики при выполнении запроса: " + request);
+            throw new ClientException("Error in the statistics client");
         }
     }
 
@@ -69,11 +68,10 @@ public class StatsClient {
 
         try {
             final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            Type userType = new TypeToken<List<ViewStats>>() {
-            }.getType();
+            Type userType = new TypeToken<List<ViewStats>>() {}.getType();
             return gson.fromJson(response.body(), userType);
         } catch (NullPointerException | IOException | InterruptedException e) {
-            throw new ClientException("Ошибка в клиенте статистики при выполнении запроса: " + request);
+            throw new ClientException("Error in the statistics client");
         }
     }
 

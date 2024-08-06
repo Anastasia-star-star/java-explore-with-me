@@ -43,21 +43,17 @@ public class RequestPrivateServiceImpl implements RequestPrivateService {
         Event event = utilService.returnEvent(eventId);
 
         if (requestRepository.countByRequesterIdAndEventId(userId, eventId) != 0) {
-            throw new ConflictException(String.format("Нельзя добавить повторный запрос, " +
-                    "userId = %s, eventId = %s.", userId, eventId));
+            throw new ConflictException("You cannot add a repeat request");
         }
         if (event.getInitiator().getId().equals(userId)) {
-            throw new ConflictException(String.format("Инициатор события не может добавить запрос на участие " +
-                    "в своём событии, userId = %s, eventId = %s.", userId, eventId));
+            throw new ConflictException("The initiator of the event cannot add a request");
         }
         if (!event.getState().equals(StateEvent.PUBLISHED)) {
-            throw new ConflictException(String.format("Нельзя участвовать в неопубликованном событии, " +
-                    "userId = %s, eventId = %s.", userId, eventId));
+            throw new ConflictException("You cannot participate in an unpublished event");
         }
         if (event.getParticipantLimit() > 0) {
             if (event.getParticipantLimit() <= requestRepository.countByEventIdAndStatus(eventId, StateRequest.CONFIRMED)) {
-                throw new ConflictException(String.format("У события достигнут лимит запросов на участие, " +
-                        "userId = %s, eventId = %s.", userId, eventId));
+                throw new ConflictException("The request limit has been reached");
             }
         }
 
@@ -89,11 +85,10 @@ public class RequestPrivateServiceImpl implements RequestPrivateService {
         ParticipationRequest participationRequest = utilService.returnRequest(requestId);
 
         if (!participationRequest.getRequester().getId().equals(userId)) {
-            throw new NotFoundException(String.format("Можно отменить только свой запрос на участие, " +
-                    "userId = %s, requestId = %s.", userId, requestId));
+            throw new NotFoundException("You can only cancel your request");
         }
-        participationRequest.setStatus(StateRequest.CANCELED);
 
+        participationRequest.setStatus(StateRequest.CANCELED);
         return ParticipationRequestMapper.INSTANCE.toParticipationRequestDto(participationRequest);
     }
 
