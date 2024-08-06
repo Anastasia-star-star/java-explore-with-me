@@ -1,10 +1,13 @@
 package ru.practicum.ewm.request;
 
+import ru.practicum.ewm.request.repository.RequestRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@DataJpaTest
 class RequestRepositoryTest {
+
+    @Autowired
+    private RequestRepository requestRepository;
 
     @Test
     void findAllByRequesterId() {

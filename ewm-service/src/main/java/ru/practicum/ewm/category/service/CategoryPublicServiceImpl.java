@@ -8,7 +8,6 @@ import ru.practicum.ewm.util.UtilService;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -24,9 +23,8 @@ public class CategoryPublicServiceImpl implements CategoryPublicService {
 
     @Override
     public List<CategoryDto> getAllCategories(Integer from, Integer size) {
-        Pageable page = PageRequest.of(from, size, Sort.by(Sort.Direction.ASC, "id"));
-        return CategoryMapper.INSTANCE.convertCategoryListToCategoryDTOList(
-                categoryRepository.findAll(page).getContent());
+        return CategoryMapper.INSTANCE.convertCategoryListToCategoryDTOList(categoryRepository
+                .findAll(PageRequest.of(from, size, Sort.by(Sort.Direction.ASC, "id"))).getContent());
     }
 
     @Override

@@ -1,6 +1,7 @@
-package ru.practicum.ewm.event.dto.creating;
+package ru.practicum.ewm.location.dto;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import lombok.Data;
 
@@ -9,10 +10,14 @@ public class LocationDto {
 
     private Long id;
 
-    @NotNull(message = "lat should not be undefined.")
+    @NotNull
     private Float lat;
 
-    @NotNull(message = "lon should not be undefined.")
+    @NotNull
     private Float lon;
+
+    @NotNull
+    @Positive
+    private Float radius = 0f;
 
 }

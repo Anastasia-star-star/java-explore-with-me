@@ -9,6 +9,7 @@ import ru.practicum.ewm.event.repository.EventRepository;
 import ru.practicum.ewm.exception.BadRequestException;
 import ru.practicum.ewm.exception.ConflictException;
 import ru.practicum.ewm.exception.NotSaveException;
+import ru.practicum.ewm.location.model.Location;
 import ru.practicum.ewm.request.model.StateRequest;
 import ru.practicum.ewm.request.repository.RequestRepository;
 import ru.practicum.ewm.util.UtilService;
@@ -38,8 +39,8 @@ public class EventAdminServiceImpl implements EventAdminService {
     @Transactional(readOnly = true)
     @Override
     public List<EventFullDto> getAllEventsByAdmin(List<Long> users, List<StateEvent> states, List<Long> categories,
-            LocalDateTime rangeStart, LocalDateTime rangeEnd, Integer from, Integer size) {
-        Pageable page = PageRequest.of(from, size, Sort.by(Sort.Direction.ASC, "id"));
+                                                  LocalDateTime rangeStart, LocalDateTime rangeEnd, Integer from, Integer size) {
+        Pageable pageable = PageRequest.of(from, size, Sort.by(Sort.Direction.ASC, "id"));
 
         if (rangeStart == null) {
             rangeStart = LocalDateTime.now();
@@ -49,18 +50,15 @@ public class EventAdminServiceImpl implements EventAdminService {
             rangeEnd = LocalDateTime.now().plusYears(100);
         }
 
-        List<Event> events = eventRepository.getAllEventsByAdmin(users, states,
-                categories, rangeStart, rangeEnd, page);
+        List<Event> events = eventRepository.getAllEventsByAdmin(users, states, categories, rangeStart, rangeEnd, pageable);
         Map<Long, Long> views = utilService.returnMapViewStats(events, rangeStart, rangeEnd);
         List<EventFullDto> eventFullDtos = EventMapper.INSTANCE.convertEventListToEventFullDtoList(events);
 
-        eventFullDtos = eventFullDtos.stream()
+        return eventFullDtos.stream()
                 .peek(dto -> dto.setConfirmedRequests(
                         requestRepository.countByEventIdAndStatus(dto.getId(), StateRequest.CONFIRMED)))
                 .peek(dto -> dto.setViews(views.getOrDefault(dto.getId(), 0L)))
                 .collect(Collectors.toList());
-
-        return eventFullDtos;
     }
 
     @Override
@@ -78,7 +76,7 @@ public class EventAdminServiceImpl implements EventAdminService {
         }
         if (updateEventAdminRequest.getEventDate() != null &&
                 LocalDateTime.now().plusHours(1).isAfter(updateEventAdminRequest.getEventDate())) {
-            throw new BadRequestException("Error date");
+            throw new BadRequestException("Event date must be at least one hour from now");
         }
         if (updateEventAdminRequest.getLocation() != null) {
             Location location = utilService.returnLocation(updateEventAdminRequest.getLocation());
@@ -94,23 +92,22 @@ public class EventAdminServiceImpl implements EventAdminService {
             event.setRequestModeration(updateEventAdminRequest.getRequestModeration());
         }
         if (updateEventAdminRequest.getStateAction() != null) {
-            if (updateEventAdminRequest.getStateAction().equals(StateActionAdmin.PUBLISH_EVENT) &&
-                    !event.getState().equals(StateEvent.PENDING)) {
-                throw new ConflictException("the event cannot be public");
-            }
-            if (updateEventAdminRequest.getStateAction().equals(StateActionAdmin.REJECT_EVENT) &&
-                    event.getState().equals(StateEvent.PUBLISHED)) {
-                throw new ConflictException("the event cannot be rejected");
-            }
-
             switch (updateEventAdminRequest.getStateAction()) {
                 case PUBLISH_EVENT:
+                    if (!event.getState().equals(StateEvent.PENDING)) {
+                        throw new ConflictException("Event cannot be published");
+                    }
                     event.setState(StateEvent.PUBLISHED);
                     event.setPublishedOn(LocalDateTime.now());
                     break;
                 case REJECT_EVENT:
+                    if (event.getState().equals(StateEvent.PUBLISHED)) {
+                        throw new ConflictException("Event cannot be rejected");
+                    }
                     event.setState(StateEvent.CANCELED);
                     break;
+                default:
+                    throw new ConflictException("Invalid state action");
             }
         }
         if (updateEventAdminRequest.getTitle() != null) {
@@ -120,8 +117,7 @@ public class EventAdminServiceImpl implements EventAdminService {
         try {
             return EventMapper.INSTANCE.toEventFullDto(event);
         } catch (DataIntegrityViolationException e) {
-            throw new NotSaveException("Do not update event");
+            throw new NotSaveException("Failed to update event");
         }
     }
-
 }

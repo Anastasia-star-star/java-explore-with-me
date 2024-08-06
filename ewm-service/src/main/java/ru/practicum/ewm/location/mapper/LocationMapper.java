@@ -1,7 +1,10 @@
-package ru.practicum.ewm.event.mapper;
+package ru.practicum.ewm.location.mapper;
 
-import ru.practicum.ewm.event.dto.creating.LocationDto;
-import ru.practicum.ewm.event.model.Location;
+import ru.practicum.ewm.location.dto.LocationDto;
+import ru.practicum.ewm.location.model.Location;
+
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -15,5 +18,7 @@ public interface LocationMapper {
     Location toLocation(LocationDto locationDto);
 
     LocationDto toLocationDto(Location location);
+
+    List<LocationDto> convertLocationListToLocationDTOList(List<Location> list);
 
 }

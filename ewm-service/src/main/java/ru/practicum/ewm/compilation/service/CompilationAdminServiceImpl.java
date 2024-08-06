@@ -41,7 +41,7 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
                     CompilationMapper.INSTANCE.toCompilationFromNewDto(newCompilationDto, events));
             return CompilationMapper.INSTANCE.toCompilationDto(compilation);
         } catch (DataIntegrityViolationException e) {
-            throw new NotSaveException(" do not save compilation " + newCompilationDto);
+            throw new NotSaveException("Compilation could not be saved: " + newCompilationDto);
         }
     }
 
@@ -52,7 +52,7 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
             compilationRepository.deleteById(compId);
             return true;
         } catch (DataIntegrityViolationException e) {
-            throw new ConflictException("can not delete compilation");
+            throw new ConflictException("Failed to delete compilation with ID: " + compId);
         }
     }
 
@@ -72,10 +72,10 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
         }
 
         try {
-            return CompilationMapper.INSTANCE.toCompilationDto(compilation);
+            Compilation updatedCompilation = compilationRepository.save(compilation);
+            return CompilationMapper.INSTANCE.toCompilationDto(updatedCompilation);
         } catch (DataIntegrityViolationException e) {
-            throw new NotSaveException("can not update compilation");
+            throw new NotSaveException("Compilation could not be updated with ID: " + compId);
         }
     }
-
 }

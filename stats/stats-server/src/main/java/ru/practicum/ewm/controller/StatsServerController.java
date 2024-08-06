@@ -30,8 +30,7 @@ public class StatsServerController {
     }
 
     @GetMapping("/stats")
-    public List<ViewStats> getAllStats(
-            @RequestParam @DateTimeFormat(pattern = YYYY_MM_DD_HH_MM_SS) LocalDateTime start,
+    public List<ViewStats> getAllStats(@RequestParam @DateTimeFormat(pattern = YYYY_MM_DD_HH_MM_SS) LocalDateTime start,
             @RequestParam @DateTimeFormat(pattern = YYYY_MM_DD_HH_MM_SS) LocalDateTime end,
             @RequestParam(required = false) List<String> uris,
             @RequestParam(defaultValue = "false") Boolean unique) {

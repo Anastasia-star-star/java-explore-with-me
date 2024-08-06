@@ -1,4 +1,4 @@
-package ru.practicum.ewm.event.model;
+package ru.practicum.ewm.location.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -21,6 +21,10 @@ public class Location {
     @NotNull
     @Column(name = "locations_lat")
     private Float lat;
+
+    @NotNull
+    @Column(name = "locations_radius")
+    private Float radius;
 
     @NotNull
     @Column(name = "locations_lon")

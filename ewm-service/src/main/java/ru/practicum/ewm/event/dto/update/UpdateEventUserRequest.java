@@ -1,12 +1,12 @@
 package ru.practicum.ewm.event.dto.update;
 
 import org.hibernate.validator.constraints.Length;
-import ru.practicum.ewm.event.dto.creating.LocationDto;
 import ru.practicum.ewm.event.model.StateActionUser;
 
 import java.time.LocalDateTime;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.PositiveOrZero;
+import ru.practicum.ewm.location.dto.LocationDto;
 
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonFormat;

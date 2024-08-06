@@ -25,8 +25,8 @@ public class ErrorHandler {
         List<String> stList = Arrays.stream(e.getStackTrace()).map(x -> x.toString()).collect(Collectors.toList());
         final List<ErrorResponse> errorResponses = e.getBindingResult().getFieldErrors().stream()
                 .map(error -> {
-                    String mes = "Field: " + error.getField() + ". Error: " +
-                            error.getDefaultMessage() + " Value: " + error.getRejectedValue() + " ";
+                    String mes = String.format("Field: %s. Error: %s Value: %s ",
+                            error.getField(), error.getDefaultMessage(), error.getRejectedValue());
                     return new ErrorResponse(mes);
                 })
                 .collect(Collectors.toList());
@@ -42,7 +42,7 @@ public class ErrorHandler {
         apiError.setTimestamp(LocalDateTime.now());
         apiError.setErrors(stList);
 
-        log.warn(apiError.toString());
+        log.error(apiError.toString());
         return apiError;
     }
 
@@ -56,7 +56,7 @@ public class ErrorHandler {
         apiError.setTimestamp(LocalDateTime.now());
         apiError.setErrors(Arrays.stream(e.getStackTrace()).map(x -> x.toString()).collect(Collectors.toList()));
 
-        log.warn(apiError.toString());
+        log.error(apiError.toString());
         return apiError;
     }
 
@@ -70,7 +70,7 @@ public class ErrorHandler {
         apiError.setTimestamp(LocalDateTime.now());
         apiError.setErrors(Arrays.stream(e.getStackTrace()).map(x -> x.toString()).collect(Collectors.toList()));
 
-        log.warn(apiError.toString());
+        log.error(apiError.toString());
         return apiError;
     }
 
@@ -84,7 +84,7 @@ public class ErrorHandler {
         apiError.setTimestamp(LocalDateTime.now());
         apiError.setErrors(Arrays.stream(e.getStackTrace()).map(x -> x.toString()).collect(Collectors.toList()));
 
-        log.warn(apiError.toString());
+        log.error(apiError.toString());
         return apiError;
     }
 
@@ -98,7 +98,7 @@ public class ErrorHandler {
         apiError.setTimestamp(LocalDateTime.now());
         apiError.setErrors(Arrays.stream(e.getStackTrace()).map(x -> x.toString()).collect(Collectors.toList()));
 
-        log.warn(apiError.toString());
+        log.error(apiError.toString());
         return apiError;
     }
 
@@ -112,7 +112,7 @@ public class ErrorHandler {
         apiError.setTimestamp(LocalDateTime.now());
         apiError.setErrors(Arrays.stream(e.getStackTrace()).map(x -> x.toString()).collect(Collectors.toList()));
 
-        log.warn(apiError.toString());
+        log.error(apiError.toString());
         return apiError;
     }
 
@@ -121,12 +121,12 @@ public class ErrorHandler {
     public ApiException handleThrowable(Throwable e) {
         ApiException apiError = new ApiException();
         apiError.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-        apiError.setReason("Произошла непредвиденная ошибка.");
+        apiError.setReason("An unexpected error has occurred.");
         apiError.setMessage(e.getMessage());
         apiError.setTimestamp(LocalDateTime.now());
         apiError.setErrors(Arrays.stream(e.getStackTrace()).map(x -> x.toString()).collect(Collectors.toList()));
 
-        log.warn(apiError.toString());
+        log.error(apiError.toString());
         return apiError;
     }
 

@@ -3,10 +3,11 @@ package ru.practicum.ewm.event.dto.update;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
-import ru.practicum.ewm.event.dto.creating.LocationDto;
 import ru.practicum.ewm.event.model.StateActionAdmin;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
+
+import ru.practicum.ewm.location.dto.LocationDto;
 
 import static constant.Constants.YYYY_MM_DD_HH_MM_SS;
 

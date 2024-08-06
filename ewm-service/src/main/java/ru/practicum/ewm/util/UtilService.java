@@ -1,17 +1,16 @@
 package ru.practicum.ewm.util;
 
-import dto.ViewStats;
 import ru.practicum.ewm.category.model.Category;
 import ru.practicum.ewm.category.repository.CategoryRepository;
 import ru.practicum.ewm.compilation.model.Compilation;
 import ru.practicum.ewm.compilation.repository.CompilationRepository;
-
-import ru.practicum.ewm.event.dto.creating.LocationDto;
-import ru.practicum.ewm.event.mapper.LocationMapper;
+import dto.ViewStats;
+import ru.practicum.ewm.location.dto.LocationDto;
+import ru.practicum.ewm.location.mapper.LocationMapper;
 import ru.practicum.ewm.event.model.Event;
-import ru.practicum.ewm.event.model.Location;
+import ru.practicum.ewm.location.model.Location;
 import ru.practicum.ewm.event.repository.EventRepository;
-import ru.practicum.ewm.event.repository.LocationRepository;
+import ru.practicum.ewm.location.repository.LocationRepository;
 import ru.practicum.ewm.exception.NotFoundException;
 import ru.practicum.ewm.request.model.ParticipationRequest;
 import ru.practicum.ewm.request.repository.RequestRepository;
@@ -45,40 +44,47 @@ public class UtilService {
 
     public User returnUser(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("user not found"));
+                .orElseThrow(() -> new NotFoundException("User not found"));
     }
 
     public Category returnCategory(Long catId) {
         return categoryRepository.findById(catId)
-                .orElseThrow(() -> new NotFoundException("Категория с id = " + catId + " не найден."));
+                .orElseThrow(() -> new NotFoundException("Category not found"));
     }
 
     public Event returnEvent(Long eventId) {
         return eventRepository.findById(eventId).orElseThrow(() ->
-                new NotFoundException("Событие с идентификатором " + eventId + " не найдено."));
+                new NotFoundException("Event not found"));
     }
 
     public void checkEventInitiator(Event event, Long userId) {
         if (!event.getInitiator().getId().equals(userId)) {
-            throw new NotFoundException("Пользователь с id = " + userId +
-                    " не является инициатором события с id = " + event.getId());
+            throw new NotFoundException("User is not initiator");
         }
     }
 
     public ParticipationRequest returnRequest(Long requestId) {
         return requestRepository.findById(requestId).orElseThrow(() ->
-                new NotFoundException("Запрос на участие с идентификатором " + requestId + " не найден."));
+                new NotFoundException("Request not found"));
     }
 
     @Transactional
     public Location returnLocation(LocationDto locationDto) {
-        Location location = locationRepository.findByLatAndLon(locationDto.getLat(), locationDto.getLon());
-        return location != null ? location : locationRepository.save(LocationMapper.INSTANCE.toLocation(locationDto));
+        locationDto.setRadius(0f);
+        Location location = locationRepository
+                .findByLatAndLonAndRadius(locationDto.getLat(), locationDto.getLon(), 0f);
+        return location != null ? location
+                : locationRepository.save(LocationMapper.INSTANCE.toLocation(locationDto));
+    }
+
+    public Location returnLocationById(Long locId) {
+        return locationRepository.findById(locId).orElseThrow(() ->
+                new NotFoundException("Location not found"));
     }
 
     public Compilation returnCompilation(Long compId) {
         return compilationRepository.findById(compId).orElseThrow(() ->
-                new NotFoundException("Подборка событий с идентификатором " + compId + " не найдена."));
+                new NotFoundException("Compilation not found"));
     }
 
     public Map<Long, Long> returnMapViewStats(List<Event> events, LocalDateTime rangeStart, LocalDateTime rangeEnd) {
@@ -95,5 +101,4 @@ public class UtilService {
         }
         return views;
     }
-
 }
