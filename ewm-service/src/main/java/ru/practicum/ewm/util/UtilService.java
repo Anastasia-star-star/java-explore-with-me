@@ -44,29 +44,28 @@ public class UtilService {
 
     public User returnUser(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("Пользователь с id = " + userId + " не найден."));
+                .orElseThrow(() -> new NotFoundException("User not found"));
     }
 
     public Category returnCategory(Long catId) {
         return categoryRepository.findById(catId)
-                .orElseThrow(() -> new NotFoundException("Категория с id = " + catId + " не найден."));
+                .orElseThrow(() -> new NotFoundException("Category not found"));
     }
 
     public Event returnEvent(Long eventId) {
         return eventRepository.findById(eventId).orElseThrow(() ->
-                new NotFoundException("Событие с идентификатором " + eventId + " не найдено."));
+                new NotFoundException("Event not found"));
     }
 
     public void checkEventInitiator(Event event, Long userId) {
         if (!event.getInitiator().getId().equals(userId)) {
-            throw new NotFoundException("Пользователь с id = " + userId +
-                    " не является инициатором события с id = " + event.getId());
+            throw new NotFoundException("User is not initiator");
         }
     }
 
     public ParticipationRequest returnRequest(Long requestId) {
         return requestRepository.findById(requestId).orElseThrow(() ->
-                new NotFoundException("Запрос на участие с идентификатором " + requestId + " не найден."));
+                new NotFoundException("Request not found"));
     }
 
     @Transactional
@@ -80,12 +79,12 @@ public class UtilService {
 
     public Location returnLocationById(Long locId) {
         return locationRepository.findById(locId).orElseThrow(() ->
-                new NotFoundException("Локация с идентификатором " + locId + " не найдена."));
+                new NotFoundException("Location not found"));
     }
 
     public Compilation returnCompilation(Long compId) {
         return compilationRepository.findById(compId).orElseThrow(() ->
-                new NotFoundException("Подборка событий с идентификатором " + compId + " не найдена."));
+                new NotFoundException("Compilation not found"));
     }
 
     public Map<Long, Long> returnMapViewStats(List<Event> events, LocalDateTime rangeStart, LocalDateTime rangeEnd) {
