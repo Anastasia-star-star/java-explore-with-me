@@ -24,9 +24,8 @@ public class CategoryPublicServiceImpl implements CategoryPublicService {
 
     @Override
     public List<CategoryDto> getAllCategories(Integer from, Integer size) {
-        Pageable page = PageRequest.of(from, size, Sort.by(Sort.Direction.ASC, "id"));
-        return CategoryMapper.INSTANCE.convertCategoryListToCategoryDTOList(
-                categoryRepository.findAll(page).getContent());
+        return CategoryMapper.INSTANCE.convertCategoryListToCategoryDTOList(categoryRepository
+                .findAll(PageRequest.of(from, size, Sort.by(Sort.Direction.ASC, "id"))).getContent());
     }
 
     @Override
