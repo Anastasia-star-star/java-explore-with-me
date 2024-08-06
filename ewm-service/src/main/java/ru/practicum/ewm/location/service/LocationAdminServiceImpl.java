@@ -63,7 +63,7 @@ public class LocationAdminServiceImpl implements LocationAdminService {
         }
 
         try {
-            return LocationMapper.INSTANCE.toLocationDto(locationRepository.saveAndFlush(location));
+            return LocationMapper.INSTANCE.toLocationDto(location);
         } catch (DataIntegrityViolationException e) {
             throw new NotSaveException("location can not be deleted");
         }
