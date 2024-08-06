@@ -1,5 +1,12 @@
 package ru.practicum.ewm.location.service;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.exception.ConflictException;
 import ru.practicum.ewm.exception.NotSaveException;
 import ru.practicum.ewm.location.dto.LocationDto;
@@ -10,14 +17,6 @@ import ru.practicum.ewm.util.UtilService;
 
 import java.util.List;
 import java.util.Optional;
-
-import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
@@ -59,7 +58,7 @@ public class LocationServiceImpl implements LocationService {
         Optional.ofNullable(locationDto.getLat()).ifPresent(location::setLat);
         Optional.ofNullable(locationDto.getLon()).ifPresent(location::setLon);
         Optional.ofNullable(locationDto.getRadius()).ifPresent(location::setRadius);
-        
+
         try {
             return LocationMapper.INSTANCE.toLocationDto(location);
         } catch (DataIntegrityViolationException e) {
