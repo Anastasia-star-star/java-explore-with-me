@@ -20,8 +20,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "AND (:states IS NULL OR e.state IN :states) " +
             "AND (:categories IS NULL OR e.category.id IN :categories) " +
             "AND e.eventDate BETWEEN :rangeStart AND :rangeEnd")
-    List<Event> getAllEventsByAdmin(@Param("users") List<Long> users,
-                                    @Param("states") List<StateEvent> states,
+    List<Event> getAllEventsByAdmin(@Param("users") List<Long> users, @Param("states") List<StateEvent> states,
                                     @Param("categories") List<Long> categories,
                                     @Param("rangeStart") LocalDateTime rangeStart,
                                     @Param("rangeEnd") LocalDateTime rangeEnd,
@@ -35,8 +34,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "AND (:paid IS NULL OR e.paid = :paid) " +
             "AND e.eventDate BETWEEN :rangeStart AND :rangeEnd " +
             "AND (:onlyAvailable = FALSE OR (e.participantLimit = 0 OR e.participantLimit > e.confirmedRequests))")
-    List<Event> getAllEvents(@Param("text") String text,
-                             @Param("categories") List<Long> categories,
+    List<Event> getAllEvents(@Param("text") String text, @Param("categories") List<Long> categories,
                              @Param("paid") Boolean paid,
                              @Param("rangeStart") LocalDateTime rangeStart,
                              @Param("rangeEnd") LocalDateTime rangeEnd,
@@ -47,8 +45,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "WHERE e.state = 'PUBLISHED' " +
             "AND function('distance', e.location.lat, e.location.lon, :lat, :lon) <= :radius " +
             "AND e.eventDate BETWEEN :rangeStart AND :rangeEnd")
-    List<Event> getAllEventsByLocation(@Param("lat") Float lat,
-                                       @Param("lon") Float lon,
+    List<Event> getAllEventsByLocation(@Param("lat") Float lat, @Param("lon") Float lon,
                                        @Param("radius") Float radius,
                                        @Param("rangeStart") LocalDateTime rangeStart,
                                        @Param("rangeEnd") LocalDateTime rangeEnd,
