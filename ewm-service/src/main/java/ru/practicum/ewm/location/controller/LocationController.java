@@ -1,7 +1,7 @@
 package ru.practicum.ewm.location.controller;
 
 import ru.practicum.ewm.location.dto.LocationDto;
-import ru.practicum.ewm.location.service.LocationAdminService;
+import ru.practicum.ewm.location.service.LocationService;
 
 import java.util.List;
 import javax.validation.Valid;
@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin/locations")
 @RequiredArgsConstructor
 @Slf4j
-public class LocationAdminController {
+public class LocationController {
 
-    private final LocationAdminService adminService;
+    private final LocationService adminService;
 
     @PostMapping
     @Validated

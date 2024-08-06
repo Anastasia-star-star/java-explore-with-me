@@ -4,7 +4,7 @@ import ru.practicum.ewm.location.dto.LocationDto;
 
 import java.util.List;
 
-public interface LocationAdminService {
+public interface LocationService {
 
     LocationDto updateLocation(Long locId, LocationDto locationDto);
 

@@ -64,8 +64,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
         User user = utilService.returnUser(userId);
         Category category = utilService.returnCategory(newEventDto.getCategory());
         if (!newEventDto.getEventDate().isAfter(LocalDateTime.now())) {
-            throw new ConflictException("Field: eventDate. Error: должно содержать дату, которая еще не наступила. " +
-                    "Value: " + newEventDto.getEventDate());
+            throw new ConflictException("Field: eventDate" + newEventDto.getEventDate());
         }
         Location location = utilService.returnLocation(newEventDto.getLocation());
 
@@ -83,7 +82,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
             eventFullDto.setViews(0L);
             return eventFullDto;
         } catch (DataIntegrityViolationException e) {
-            throw new NotSaveException("Событие не было создано: " + newEventDto);
+            throw new NotSaveException("The event was not created");
         }
     }
 
@@ -114,8 +113,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
         utilService.checkEventInitiator(event, userId);
 
         if (event.getState().equals(StateEvent.PUBLISHED)) {
-            throw new ConflictException(String.format("Событие не должно быть опубликовано, userId = %s, " +
-                    "eventId = %s, updateEventUserRequest: %s.", userId, eventId, updateEventUserRequest));
+            throw new ConflictException("The event should not be published");
         }
 
         Optional.ofNullable(updateEventUserRequest.getAnnotation()).ifPresent(event::setAnnotation);
@@ -189,15 +187,12 @@ public class EventPrivateServiceImpl implements EventPrivateService {
         utilService.checkEventInitiator(event, userId);
 
         if (!event.getRequestModeration() || event.getParticipantLimit() == 0) {
-            throw new ConflictException("У события лимит заявок равен 0 или отключена пре-модерация, userId = "
-                    + userId + ", eventId = " + eventId + ", eventRequestStatusUpdateRequest: "
-                    + eventRequestStatusUpdateRequest);
+            throw new ConflictException("The event has a request limit of 0");
         }
         long confirmedLimit = requestRepository.countByEventIdAndStatus(eventId, StateRequest.CONFIRMED);
         if (event.getParticipantLimit() != 0 && event.getParticipantLimit() <= confirmedLimit) {
-            throw new ConflictException("Нельзя подтвердить заявку, так как достигнут лимит по заявкам " +
-                    "на данное событие, userId = " + userId + ", eventId = " + eventId +
-                    ", eventRequestStatusUpdateRequest: " + eventRequestStatusUpdateRequest);
+            throw new ConflictException("It is impossible to confirm the application, " +
+                    "as the application limit has been reached");
         }
 
         List<ParticipationRequest> requestsToUpdate = requestRepository
@@ -207,9 +202,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
 
         for (ParticipationRequest request : requestsToUpdate) {
             if (!request.getStatus().equals(StateRequest.PENDING)) {
-                throw new ConflictException("Нельзя отменить уже принятую заявку на участие, userId = " + userId
-                        + ", eventId = " + eventId + ", eventRequestStatusUpdateRequest: "
-                        + eventRequestStatusUpdateRequest);
+                throw new ConflictException("You cannot cancel an already accepted application for participation");
             }
             if (!request.getEvent().getId().equals(eventId)) {
                 rejected.add(request);

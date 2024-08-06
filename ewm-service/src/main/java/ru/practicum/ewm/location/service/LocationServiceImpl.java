@@ -9,6 +9,7 @@ import ru.practicum.ewm.location.repository.LocationRepository;
 import ru.practicum.ewm.util.UtilService;
 
 import java.util.List;
+import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class LocationAdminServiceImpl implements LocationAdminService {
+public class LocationServiceImpl implements LocationService {
 
     private final LocationRepository locationRepository;
     private final UtilService utilService;
@@ -55,16 +56,10 @@ public class LocationAdminServiceImpl implements LocationAdminService {
     public LocationDto updateLocation(Long locId, LocationDto locationDto) {
         Location location = utilService.returnLocationById(locId);
 
-        if (locationDto.getLat() != null) {
-            location.setLat(locationDto.getLat());
-        }
-        if (locationDto.getLon() != null) {
-            location.setLon(locationDto.getLon());
-        }
-        if (locationDto.getRadius() != null) {
-            location.setRadius(locationDto.getRadius());
-        }
-
+        Optional.ofNullable(locationDto.getLat()).ifPresent(location::setLat);
+        Optional.ofNullable(locationDto.getLon()).ifPresent(location::setLon);
+        Optional.ofNullable(locationDto.getRadius()).ifPresent(location::setRadius);
+        
         try {
             return LocationMapper.INSTANCE.toLocationDto(location);
         } catch (DataIntegrityViolationException e) {
